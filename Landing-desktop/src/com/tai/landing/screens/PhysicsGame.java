@@ -30,8 +30,8 @@ public class PhysicsGame extends BaseScreen {
 	//TileMapRenderer tileMapRenderer;
 
 	// -------Box2d--------------
-	World world = new World(new Vector2(0, -10), true);
-	//Box2DDebugRenderer debugRenderer; 
+	World world = new World(new Vector2(0, -100), true);
+	Box2DDebugRenderer debugRenderer; 
 
 	// camera.
 	OrthographicCamera camera;
@@ -47,7 +47,7 @@ public class PhysicsGame extends BaseScreen {
 	
 	public PhysicsGame(Landing game) {
 		super(game);
-		// debugRenderer = new Box2DDebugRenderer();  
+		debugRenderer = new Box2DDebugRenderer();  
 	}
 
 	@Override
@@ -69,11 +69,11 @@ public class PhysicsGame extends BaseScreen {
 				camera.viewportHeight * .5f, 0f);
 		camera.update();
 
-		Image im = new Image(getAtlas().findRegion("background"));
+		/*Image im = new Image(getAtlas().findRegion("background"));
 		im.setSize(BaseScreen.VIEWPORT_WIDTH, BaseScreen.VIEWPORT_HEIGHT);
 		im.setPosition(0, 0);
 		im.setTouchable(Touchable.disabled);
-		stage.addActor(im);	
+		stage.addActor(im);	*/
 		
 		stage.addActor(group);
 		stage.addActor(pgroup);
@@ -110,23 +110,6 @@ public class PhysicsGame extends BaseScreen {
 		}
 	}
 
-	private PolygonShape getPolygon(TiledObject o)
-	{
-		PolygonShape polygon = new PolygonShape();
-		String[] strp = o.polygon.split(" ");
-		Vector2[] apoints = new Vector2[strp.length];
-		for (int i = 0; i < strp.length; i++) {
-			float x = Float.parseFloat(strp[i].split(",")[0]); 
-			x = x * myBody.WORLD_TO_BOX; 
-		float y = -Float.parseFloat(strp[i].split(",")[1]); 
-			y = y * myBody.WORLD_TO_BOX; 
-
-			apoints[i] = new Vector2(x, y);
-		}
-		polygon.set(apoints);
-		return polygon;
-	}
-	
 	private void CreateStaticBody(TiledObject o)
 	{
 		BodyDef groundBodyDef = new BodyDef();
@@ -140,14 +123,17 @@ public class PhysicsGame extends BaseScreen {
 		groundBodyDef.position.set(x, y);
 		Body groundBody = world.createBody(groundBodyDef);
 
-		groundBody.createFixture(getPolygon(o), 0.0f);		
+		groundBody.createFixture(new myPolygonShape(o), 0.0f);		
 	}
 	
 	private void CreateDynamicBody(TiledObject o)
 	{
 		TextureRegion tr = getAtlas().findRegion("dynamic", Integer.parseInt(o.name));
 		myBody mb = new myBody(tr, world, BodyType.DynamicBody, o.x,  BaseScreen.VIEWPORT_HEIGHT - o.y - o.height);
-		mb.CreateFixture(getPolygon(o), 1f, 0.5f, 0f);
+		
+		
+		myPolygonShape poly= new myPolygonShape(o);
+		mb.CreateFixture(poly, 1f, 0.5f, 0f);
 		
 		mb.setTouchable(Touchable.enabled);
 		group.addActor(mb);
@@ -157,7 +143,9 @@ public class PhysicsGame extends BaseScreen {
 	{
 		TextureRegion tr = getAtlas().findRegion("player", Integer.parseInt(o.name));
 		myBody mb = new myBody(tr, world, BodyType.DynamicBody, o.x,  BaseScreen.VIEWPORT_HEIGHT - o.y - o.height);
-		mb.CreateFixture(getPolygon(o), 1f, 0.5f, 0.5f);
+		
+		myPolygonShape poly= new myPolygonShape(o);
+		mb.CreateFixture(poly, 1f, 0.5f, 0.5f);
 		
 		mb.setTouchable(Touchable.disabled);
 		pgroup.addActor(mb);
@@ -191,7 +179,7 @@ public class PhysicsGame extends BaseScreen {
 
 		//camera.update();
 		//tileMapRenderer.render(camera);
-		//debugRenderer.render(world, camera.combined);  
+		debugRenderer.render(world, camera.combined);  
 	
 		// Thục thi các hoạt động của các vật thể trong thế giới Box2D
 		world.step(BOX_STEP, BOX_VELOCITY_ITERATIONS, BOX_POSITION_ITERATIONS);
