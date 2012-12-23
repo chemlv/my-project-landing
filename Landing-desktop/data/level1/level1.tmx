@@ -1,25 +1,24 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><map height="30" orientation="orthogonal" tileheight="16" tilewidth="16" version="1.0" width="50"><properties><property name="blended tiles" value=""/></properties>
- <layer height="30" name="Tile Layer 1" width="50">
-  <data compression="zlib" encoding="base64">
-   eJztwTEBAAAAwqD1T20IX6AAAAAAAIDXABdwAAE=
-  </data>
- </layer>
- <objectgroup height="30" name="static" width="50">
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="50" height="30" tilewidth="16" tileheight="16">
+ <properties>
+  <property name="blended tiles" value=""/>
+ </properties>
+ <objectgroup name="static" width="50" height="30">
   <object name="1" type="dat" x="800" y="480">
    <polygon points="0,0 -16,-16 -784,-16 -800,0"/>
   </object>
  </objectgroup>
- <objectgroup height="30" name="dynamic" width="50">
-  <object name="1" type="govuong" x="416" y="416">
-   <polygon points="0,0 0,-48 -48,-48 -48,0"/>
+ <objectgroup name="dynamic" width="50" height="30">
+  <object name="1" type="govuong" x="368" y="368">
+   <polygon points="0,0 0,48 48,48 48,0"/>
   </object>
-  <object name="1" type="govuong" x="416" y="464">
-   <polygon points="0,0 0,-48 -48,-48 -48,0"/>
+  <object name="1" type="govuong" x="368" y="416">
+   <polygon points="0,0 0,48 48,48 48,0"/>
   </object>
  </objectgroup>
- <objectgroup height="30" name="player" width="50">
-  <object name="1" type="heo" x="416" y="368">
-   <polygon points="0,0 27,-75 27,-111 -73,-110 -72,-77 -48,0"/>
+ <objectgroup name="player" width="50" height="30">
+  <object name="1" type="heo" x="343" y="258">
+   <polygon points="0,0 1,34 25,111 73,111 101,34 100,-1"/>
   </object>
  </objectgroup>
 </map>

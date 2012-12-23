@@ -20,7 +20,7 @@ public class myBody extends Image {
 	public myBody(TextureRegion aregion, World world, BodyType type, float x, float y)
 	{
 		super(aregion);
-		this.setOrigin(this.getWidth() / 2, this.getHeight() / 2);
+		this.setOrigin(0, this.getHeight());
 		
 		BodyDef bodyDef = new BodyDef();
 		bodyDef.type = type;
@@ -47,9 +47,9 @@ public class myBody extends Image {
 	
 	public void UpdateFromBody()
 	{
-		float x = body.getPosition().x - (this.getWidth()); 
+		float x = body.getPosition().x; //- (this.getWidth()); 
 		x = x * BOX_TO_WORLD; 
-		float y = body.getPosition().y;// - this.getHeight() / 2;
+		float y = body.getPosition().y - this.getHeight();
 		y = y * BOX_TO_WORLD;
 
 		this.setPosition(x, y);
