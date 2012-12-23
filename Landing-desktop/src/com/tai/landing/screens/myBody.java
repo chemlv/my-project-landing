@@ -43,6 +43,8 @@ public class myBody extends Image {
 		fixtureDef.friction = friction; // độ ma sát
 		fixtureDef.restitution = restitution; // độ đàn hồi
 		body.createFixture(fixtureDef);
+		
+		this.setSize(shape.getWidth(), shape.getHeight());
 	}
 	
 	public void UpdateFromBody()
