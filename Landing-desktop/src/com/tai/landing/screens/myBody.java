@@ -12,8 +12,8 @@ import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
 public class myBody extends Image {
-	static final float WORLD_TO_BOX = 1; //0.01f;
-	static final float BOX_TO_WORLD = 1; //100f;
+	static final float WORLD_TO_BOX = 0.01f;
+	static final float BOX_TO_WORLD = 100f;
 	
 	Body body;
 	
@@ -44,17 +44,17 @@ public class myBody extends Image {
 		fixtureDef.restitution = restitution; // độ đàn hồi
 		body.createFixture(fixtureDef);
 		
-		this.setSize(shape.getWidth(), shape.getHeight());
+		this.setSize(shape.getWidth() * BOX_TO_WORLD, shape.getHeight() * BOX_TO_WORLD);
 	}
 	
 	public void UpdateFromBody()
 	{
-		float x = body.getPosition().x; //- (this.getWidth()); 
+		float x = body.getPosition().x; 
 		x = x * BOX_TO_WORLD; 
-		float y = body.getPosition().y - this.getHeight();
+		float y = body.getPosition().y;
 		y = y * BOX_TO_WORLD;
 
-		this.setPosition(x, y);
+		this.setPosition(x, y - this.getHeight());
 		this.setRotation(MathUtils.radiansToDegrees * body.getAngle());		
 	}
 }

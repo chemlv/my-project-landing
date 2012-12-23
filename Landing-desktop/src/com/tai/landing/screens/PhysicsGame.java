@@ -30,8 +30,8 @@ public class PhysicsGame extends BaseScreen {
 	//TileMapRenderer tileMapRenderer;
 
 	// -------Box2d--------------
-	World world = new World(new Vector2(0, -100), true);
-	Box2DDebugRenderer debugRenderer; 
+	World world = new World(new Vector2(0, -10), true);
+	//Box2DDebugRenderer debugRenderer; 
 
 	// camera.
 	OrthographicCamera camera;
@@ -47,7 +47,7 @@ public class PhysicsGame extends BaseScreen {
 	
 	public PhysicsGame(Landing game) {
 		super(game);
-		debugRenderer = new Box2DDebugRenderer();  
+		//debugRenderer = new Box2DDebugRenderer();  
 	}
 
 	@Override
@@ -69,11 +69,11 @@ public class PhysicsGame extends BaseScreen {
 				camera.viewportHeight * .5f, 0f);
 		camera.update();
 
-		/*Image im = new Image(getAtlas().findRegion("background"));
+		Image im = new Image(getAtlas().findRegion("background"));
 		im.setSize(BaseScreen.VIEWPORT_WIDTH, BaseScreen.VIEWPORT_HEIGHT);
 		im.setPosition(0, 0);
 		im.setTouchable(Touchable.disabled);
-		stage.addActor(im);	*/
+		stage.addActor(im);
 		
 		stage.addActor(group);
 		stage.addActor(pgroup);
@@ -179,7 +179,7 @@ public class PhysicsGame extends BaseScreen {
 
 		//camera.update();
 		//tileMapRenderer.render(camera);
-		debugRenderer.render(world, camera.combined);  
+		//debugRenderer.render(world, camera.combined);  
 	
 		// Thục thi các hoạt động của các vật thể trong thế giới Box2D
 		world.step(BOX_STEP, BOX_VELOCITY_ITERATIONS, BOX_POSITION_ITERATIONS);
