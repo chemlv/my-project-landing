@@ -68,12 +68,6 @@ public class PhysicsGame extends BaseScreen {
 		camera.position.set(camera.viewportWidth * .5f,
 				camera.viewportHeight * .5f, 0f);
 		camera.update();
-
-		/*Image im = new Image(getAtlas().findRegion("background"));
-		im.setSize(BaseScreen.VIEWPORT_WIDTH, BaseScreen.VIEWPORT_HEIGHT);
-		im.setPosition(0, 0);
-		im.setTouchable(Touchable.disabled);
-		stage.addActor(im);*/
 		
 		stage.addActor(group);
 		stage.addActor(pgroup);

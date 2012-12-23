@@ -3,23 +3,16 @@ FileMoTa.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-background
-  rotate: false
-  xy: 1, 1
-  size: 800, 480
-  orig: 800, 480
-  offset: 0, 0
-  index: -1
 player
   rotate: false
-  xy: 803, 373
+  xy: 1, 1
   size: 99, 108
   orig: 99, 108
   offset: 0, 0
   index: 1
 dynamic
   rotate: false
-  xy: 803, 323
+  xy: 102, 61
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
