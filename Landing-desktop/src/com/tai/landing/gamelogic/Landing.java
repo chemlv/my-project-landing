@@ -6,7 +6,7 @@ import com.tai.landing.screens.PhysicsGame;
 
 public class Landing extends Game {
 
-	public PhysicsGame getPhysicsDemo()
+	public PhysicsGame getPhysicsGame()
 	{
 		return new PhysicsGame(this);
 	}
@@ -25,7 +25,7 @@ public class Landing extends Game {
         // show the splash screen when the game is resized for the first time;
         // this approach avoids calling the screen's resize method repeatedly
         if( getScreen() == null ) {
-           setScreen( getPhysicsDemo() );
+           setScreen( getPhysicsGame() );
         }
     }
 
