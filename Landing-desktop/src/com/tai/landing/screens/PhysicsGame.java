@@ -24,6 +24,8 @@ import com.tai.landing.gamelogic.Landing;
 
 public class PhysicsGame extends BaseScreen {
 
+	private int level;
+	
 	// ---- Tiled Map ------------
 	TiledMap tiledMap;
 	TileAtlas tileAtlas;
@@ -45,8 +47,9 @@ public class PhysicsGame extends BaseScreen {
 	Group group = new Group();
 	Group pgroup = new Group();
 	
-	public PhysicsGame(Landing game) {
+	public PhysicsGame(Landing game, int level) {
 		super(game);
+		this.level = level;
 		//debugRenderer = new Box2DDebugRenderer();  
 	}
 
@@ -56,7 +59,7 @@ public class PhysicsGame extends BaseScreen {
 		super.show();
 
 		// Nạp TiledMap
-		tiledMap = TiledLoader.createMap(Gdx.files.internal("data/level/level1.tmx"));
+		tiledMap = TiledLoader.createMap(Gdx.files.internal("data/level/level" + level + ".tmx"));
 		tileAtlas = new TileAtlas(tiledMap, Gdx.files.internal("data/map"));
 		tileMapRenderer = new TileMapRenderer(tiledMap, tileAtlas, 8, 8);
 
@@ -74,6 +77,22 @@ public class PhysicsGame extends BaseScreen {
 		
 		LoadActor();
 
+	}
+	
+	private void Reset()
+	{
+			world.dispose();
+			group.clear();
+			pgroup.clear();
+			world = new World(new Vector2(0, -10), true);
+			tileAtlas.dispose();
+			tileMapRenderer.dispose();
+			
+			tiledMap = TiledLoader.createMap(Gdx.files.internal("data/level/level" + level + ".tmx"));
+			tileAtlas = new TileAtlas(tiledMap, Gdx.files.internal("data/map"));
+			tileMapRenderer = new TileMapRenderer(tiledMap, tileAtlas, 8, 8);
+			
+			LoadActor();
 	}
 	
 	private void LoadActor() {
@@ -175,6 +194,22 @@ public class PhysicsGame extends BaseScreen {
 			mb.UpdateFromBody();
 			
 			//kiem tra tat ca nhan vat deu duoi dat va khong bi nghieng
+			if (!mb.body.isAwake())
+			{
+				if (group.getChildren().size == 0) 
+				{
+					if (mb.getRotation() > -90 && mb.getRotation() < 90)
+					{
+						level = 2;
+						Reset();
+					}
+					else
+					{
+						level = 1;
+						Reset();
+					}
+				}
+			}
 			
 		}
 		
@@ -188,8 +223,8 @@ public class PhysicsGame extends BaseScreen {
     {
 		super.dispose();
 		world.dispose();
-		//tileAtlas.dispose();
-		//tileMapRenderer.dispose();
+		tileAtlas.dispose();
+		tileMapRenderer.dispose();
 		
     }
 }
