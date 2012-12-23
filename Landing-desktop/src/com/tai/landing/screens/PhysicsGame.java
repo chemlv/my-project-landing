@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.g2d.tiled.TiledMap;
 import com.badlogic.gdx.graphics.g2d.tiled.TiledObject;
 import com.badlogic.gdx.graphics.g2d.tiled.TiledObjectGroup;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.scenes.scene2d.Group;
@@ -97,10 +98,29 @@ public class PhysicsGame extends BaseScreen {
 		}
 	}
 
+	private PolygonShape getPolygon(TiledObject o)
+	{
+		PolygonShape polygon = new PolygonShape();
+		String[] strp = o.polygon.split(" ");
+		Vector2[] apoints = new Vector2[strp.length];
+		for (int i = 0; i < strp.length; i++) {
+			float x = Float.parseFloat(strp[i].split(",")[0]); 
+			x = x * myBody.WORLD_TO_BOX; 
+			float y = -Float.parseFloat(strp[i].split(",")[1]); 
+			y = y * myBody.WORLD_TO_BOX; 
+
+			apoints[i] = new Vector2(x, y);
+		}
+		polygon.set(apoints);
+		return polygon;
+	}
+	
 	private void CreateStaticBody(TiledObject o)
 	{
 		TextureRegion tr = getAtlas().findRegion("static", Integer.parseInt(o.name));
-		myBody mb = new myBody(tr, o.width, o.height, world, BodyType.StaticBody, o.x, o.y);
+		myBody mb = new myBody(tr, o.width, o.height, world, BodyType.StaticBody, o.x,  tileMapRenderer.getMapHeightUnits() - o.y - o.height);
+		mb.CreateFixture(getPolygon(o));
+		
 		mb.setTouchable(Touchable.disabled);
 		group.addActor(mb);
 	}
@@ -108,7 +128,9 @@ public class PhysicsGame extends BaseScreen {
 	private void CreateDynamicBody(TiledObject o)
 	{
 		TextureRegion tr = getAtlas().findRegion("dynamic", Integer.parseInt(o.name));
-		myBody mb = new myBody(tr, o.width, o.height, world, BodyType.StaticBody, o.x, o.y);
+		myBody mb = new myBody(tr, o.width, o.height, world, BodyType.StaticBody, o.x,  tileMapRenderer.getMapHeightUnits() - o.y - o.height);
+		mb.CreateFixture(getPolygon(o), 1f, 0.5f, 0.5f);
+		
 		mb.setTouchable(Touchable.enabled);
 		group.addActor(mb);
 	}
@@ -116,7 +138,9 @@ public class PhysicsGame extends BaseScreen {
 	private void CreatePlayerBody(TiledObject o)
 	{
 		TextureRegion tr = getAtlas().findRegion("player", Integer.parseInt(o.name));
-		myBody mb = new myBody(tr, o.width, o.height, world, BodyType.StaticBody, o.x, o.y);
+		myBody mb = new myBody(tr, o.width, o.height, world, BodyType.StaticBody, o.x,  tileMapRenderer.getMapHeightUnits() - o.y - o.height);
+		mb.CreateFixture(getPolygon(o), 1f, 0.5f, 0.5f);
+		
 		mb.setTouchable(Touchable.enabled);
 		pgroup.addActor(mb);
 	}
@@ -153,6 +177,22 @@ public class PhysicsGame extends BaseScreen {
 		world.step(BOX_STEP, BOX_VELOCITY_ITERATIONS, BOX_POSITION_ITERATIONS);
 		world.clearForces();
 	
+		for (int i = 0; i < group.getChildren().size; i++)
+		{
+			myBody mb = (myBody) group.getChildren().get(i);
+			mb.UpdateFromBody();
+		}
+
+		for (int i = 0; i < pgroup.getChildren().size; i++)
+		{
+			myBody mb = (myBody) group.getChildren().get(i);
+			mb.UpdateFromBody();
+			
+			//kiem tra tat ca nhan vat deu duoi dat va khong bi nghieng
+			
+		}
+		
+		
 		stage.draw();
 
 	}

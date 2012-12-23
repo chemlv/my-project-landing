@@ -46,6 +46,11 @@ public class myBody extends Image {
 		body.createFixture(fixtureDef);
 	}
 	
+	public void CreateFixture(Shape shape)
+	{
+		body.createFixture(shape, 0.0f);
+	}
+	
 	public void UpdateFromBody()
 	{
 		float x = body.getPosition().x - this.getWidth() / 2; 
