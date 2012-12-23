@@ -16,12 +16,10 @@ public class myBody extends Image {
 	
 	Body body;
 	
-	public myBody(TextureRegion aregion, float w, float h, World world, BodyType type, float x, float y)
+	public myBody(TextureRegion aregion, World world, BodyType type, float x, float y)
 	{
 		super(aregion);
-		this.setSize(w, h);
-		this.setOrigin(w / 2, h / 2);
-
+		this.setOrigin(this.getWidth(), this.getHeight());
 		
 		BodyDef bodyDef = new BodyDef();
 		bodyDef.type = type;
@@ -53,9 +51,9 @@ public class myBody extends Image {
 	
 	public void UpdateFromBody()
 	{
-		float x = body.getPosition().x - this.getWidth() / 2; 
+		float x = body.getPosition().x;// - (this.getWidth()); 
 		x = x * BOX_TO_WORLD; 
-		float y = body.getPosition().y - this.getHeight() / 2;
+		float y = body.getPosition().y;// - this.getHeight() / 2;
 		y = y * BOX_TO_WORLD;
 
 		this.setPosition(x, y);

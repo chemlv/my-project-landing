@@ -12,6 +12,6 @@ public class MyTTPacker {
 		Settings tt = new Settings();
 		tt.maxWidth = 1024;
 		tt.minWidth = 512;
-		TexturePacker2.process(tt, "MyData/", "MyDataPacker/", "FileMoTa.txt");
+		TexturePacker2.process(tt, "MyData/", "data/MyDataPacker/", "FileMoTa.txt");
 	}
 }

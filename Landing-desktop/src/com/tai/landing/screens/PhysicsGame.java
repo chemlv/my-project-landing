@@ -11,22 +11,27 @@ import com.badlogic.gdx.graphics.g2d.tiled.TiledMap;
 import com.badlogic.gdx.graphics.g2d.tiled.TiledObject;
 import com.badlogic.gdx.graphics.g2d.tiled.TiledObjectGroup;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.tai.landing.gamelogic.Landing;
 
 public class PhysicsGame extends BaseScreen {
 
 	// ---- Tiled Map ------------
 	TiledMap tiledMap;
-	TileAtlas tileAtlas;
-	TileMapRenderer tileMapRenderer;
+	//TileAtlas tileAtlas;
+	//TileMapRenderer tileMapRenderer;
 
 	// -------Box2d--------------
 	World world = new World(new Vector2(0, -10), true);
+	//Box2DDebugRenderer debugRenderer; 
 
 	// camera.
 	OrthographicCamera camera;
@@ -42,6 +47,7 @@ public class PhysicsGame extends BaseScreen {
 	
 	public PhysicsGame(Landing game) {
 		super(game);
+		// debugRenderer = new Box2DDebugRenderer();  
 	}
 
 	@Override
@@ -50,9 +56,9 @@ public class PhysicsGame extends BaseScreen {
 		super.show();
 
 		// Nạp TiledMap
-		tiledMap = TiledLoader.createMap(Gdx.files.internal("mapx/xmas.tmx"));
-		tileAtlas = new TileAtlas(tiledMap, Gdx.files.internal("mapx"));
-		tileMapRenderer = new TileMapRenderer(tiledMap, tileAtlas, 8, 8);
+		tiledMap = TiledLoader.createMap(Gdx.files.internal("data/level1/level1.tmx"));
+		//tileAtlas = new TileAtlas(tiledMap, Gdx.files.internal("data/level1"));
+		//tileMapRenderer = new TileMapRenderer(tiledMap, tileAtlas, 8, 8);
 
 		// Lấy camera là của stage, định lại kích thước viewport và chĩa ống
 		// kính vào giữa...
@@ -63,6 +69,12 @@ public class PhysicsGame extends BaseScreen {
 				camera.viewportHeight * .5f, 0f);
 		camera.update();
 
+		Image im = new Image(getAtlas().findRegion("background"));
+		im.setSize(BaseScreen.VIEWPORT_WIDTH, BaseScreen.VIEWPORT_HEIGHT);
+		im.setPosition(0, 0);
+		im.setTouchable(Touchable.disabled);
+		stage.addActor(im);	
+		
 		stage.addActor(group);
 		stage.addActor(pgroup);
 		
@@ -106,7 +118,7 @@ public class PhysicsGame extends BaseScreen {
 		for (int i = 0; i < strp.length; i++) {
 			float x = Float.parseFloat(strp[i].split(",")[0]); 
 			x = x * myBody.WORLD_TO_BOX; 
-			float y = -Float.parseFloat(strp[i].split(",")[1]); 
+		float y = -Float.parseFloat(strp[i].split(",")[1]); 
 			y = y * myBody.WORLD_TO_BOX; 
 
 			apoints[i] = new Vector2(x, y);
@@ -117,19 +129,25 @@ public class PhysicsGame extends BaseScreen {
 	
 	private void CreateStaticBody(TiledObject o)
 	{
-		TextureRegion tr = getAtlas().findRegion("static", Integer.parseInt(o.name));
-		myBody mb = new myBody(tr, o.width, o.height, world, BodyType.StaticBody, o.x,  tileMapRenderer.getMapHeightUnits() - o.y - o.height);
-		mb.CreateFixture(getPolygon(o));
-		
-		mb.setTouchable(Touchable.disabled);
-		group.addActor(mb);
+		BodyDef groundBodyDef = new BodyDef();
+		groundBodyDef.type = BodyType.StaticBody;
+
+		float x = o.x;
+		x = x * myBody.WORLD_TO_BOX;
+		float y = BaseScreen.VIEWPORT_HEIGHT - o.y - o.height;
+		y = y * myBody.WORLD_TO_BOX;
+
+		groundBodyDef.position.set(x, y);
+		Body groundBody = world.createBody(groundBodyDef);
+
+		groundBody.createFixture(getPolygon(o), 0.0f);		
 	}
 	
 	private void CreateDynamicBody(TiledObject o)
 	{
 		TextureRegion tr = getAtlas().findRegion("dynamic", Integer.parseInt(o.name));
-		myBody mb = new myBody(tr, o.width, o.height, world, BodyType.StaticBody, o.x,  tileMapRenderer.getMapHeightUnits() - o.y - o.height);
-		mb.CreateFixture(getPolygon(o), 1f, 0.5f, 0.5f);
+		myBody mb = new myBody(tr, world, BodyType.DynamicBody, o.x,  BaseScreen.VIEWPORT_HEIGHT - o.y - o.height);
+		mb.CreateFixture(getPolygon(o), 1f, 0.5f, 0f);
 		
 		mb.setTouchable(Touchable.enabled);
 		group.addActor(mb);
@@ -138,15 +156,16 @@ public class PhysicsGame extends BaseScreen {
 	private void CreatePlayerBody(TiledObject o)
 	{
 		TextureRegion tr = getAtlas().findRegion("player", Integer.parseInt(o.name));
-		myBody mb = new myBody(tr, o.width, o.height, world, BodyType.StaticBody, o.x,  tileMapRenderer.getMapHeightUnits() - o.y - o.height);
+		myBody mb = new myBody(tr, world, BodyType.DynamicBody, o.x,  BaseScreen.VIEWPORT_HEIGHT - o.y - o.height);
 		mb.CreateFixture(getPolygon(o), 1f, 0.5f, 0.5f);
 		
-		mb.setTouchable(Touchable.enabled);
+		mb.setTouchable(Touchable.disabled);
 		pgroup.addActor(mb);
 	}
 	
 	private void Remove(float x, float y)
 	{
+		y = BaseScreen.VIEWPORT_HEIGHT - y;
 		myBody mb = (myBody) stage.hit(x, y, true);
 		if (mb != null)
 		{
@@ -170,8 +189,9 @@ public class PhysicsGame extends BaseScreen {
 		Gdx.gl.glClearColor(0f, 0f, 0f, 1f);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-		camera.update();
-		tileMapRenderer.render(camera);
+		//camera.update();
+		//tileMapRenderer.render(camera);
+		//debugRenderer.render(world, camera.combined);  
 	
 		// Thục thi các hoạt động của các vật thể trong thế giới Box2D
 		world.step(BOX_STEP, BOX_VELOCITY_ITERATIONS, BOX_POSITION_ITERATIONS);
@@ -185,7 +205,7 @@ public class PhysicsGame extends BaseScreen {
 
 		for (int i = 0; i < pgroup.getChildren().size; i++)
 		{
-			myBody mb = (myBody) group.getChildren().get(i);
+			myBody mb = (myBody) pgroup.getChildren().get(i);
 			mb.UpdateFromBody();
 			
 			//kiem tra tat ca nhan vat deu duoi dat va khong bi nghieng
@@ -202,8 +222,8 @@ public class PhysicsGame extends BaseScreen {
     {
 		super.dispose();
 		world.dispose();
-		tileAtlas.dispose();
-		tileMapRenderer.dispose();
+		//tileAtlas.dispose();
+		//tileMapRenderer.dispose();
 		
     }
 }
