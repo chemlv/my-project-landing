@@ -2,13 +2,13 @@ package com.tai.landing.gamelogic;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Screen;
-import com.tai.landing.screens.PhysicsDemo;
+import com.tai.landing.screens.PhysicsGame;
 
 public class Landing extends Game {
 
-	public PhysicsDemo getPhysicsDemo()
+	public PhysicsGame getPhysicsDemo()
 	{
-		return new PhysicsDemo(this);
+		return new PhysicsGame(this);
 	}
 
 	@Override
