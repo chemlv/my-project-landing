@@ -26,8 +26,8 @@ public class PhysicsGame extends BaseScreen {
 
 	// ---- Tiled Map ------------
 	TiledMap tiledMap;
-	//TileAtlas tileAtlas;
-	//TileMapRenderer tileMapRenderer;
+	TileAtlas tileAtlas;
+	TileMapRenderer tileMapRenderer;
 
 	// -------Box2d--------------
 	World world = new World(new Vector2(0, -10), true);
@@ -56,9 +56,9 @@ public class PhysicsGame extends BaseScreen {
 		super.show();
 
 		// Nạp TiledMap
-		tiledMap = TiledLoader.createMap(Gdx.files.internal("data/level1/level1.tmx"));
-		//tileAtlas = new TileAtlas(tiledMap, Gdx.files.internal("data/level1"));
-		//tileMapRenderer = new TileMapRenderer(tiledMap, tileAtlas, 8, 8);
+		tiledMap = TiledLoader.createMap(Gdx.files.internal("data/level/level1.tmx"));
+		tileAtlas = new TileAtlas(tiledMap, Gdx.files.internal("data/map"));
+		tileMapRenderer = new TileMapRenderer(tiledMap, tileAtlas, 8, 8);
 
 		// Lấy camera là của stage, định lại kích thước viewport và chĩa ống
 		// kính vào giữa...
@@ -69,11 +69,11 @@ public class PhysicsGame extends BaseScreen {
 				camera.viewportHeight * .5f, 0f);
 		camera.update();
 
-		Image im = new Image(getAtlas().findRegion("background"));
+		/*Image im = new Image(getAtlas().findRegion("background"));
 		im.setSize(BaseScreen.VIEWPORT_WIDTH, BaseScreen.VIEWPORT_HEIGHT);
 		im.setPosition(0, 0);
 		im.setTouchable(Touchable.disabled);
-		stage.addActor(im);
+		stage.addActor(im);*/
 		
 		stage.addActor(group);
 		stage.addActor(pgroup);
@@ -162,7 +162,7 @@ public class PhysicsGame extends BaseScreen {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 		//camera.update();
-		//tileMapRenderer.render(camera);
+		tileMapRenderer.render(camera);
 		//debugRenderer.render(world, camera.combined);  
 	
 		// Thục thi các hoạt động của các vật thể trong thế giới Box2D
