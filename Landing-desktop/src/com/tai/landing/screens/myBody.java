@@ -9,6 +9,8 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
 public class myBody extends Image {
@@ -32,6 +34,7 @@ public class myBody extends Image {
 		bodyDef.position.set(x, y);
 		body = world.createBody(bodyDef);
 		
+		setListener(world);
 		//body.setUserData(this);
 	}
 	
@@ -57,4 +60,21 @@ public class myBody extends Image {
 		this.setPosition(x, y - this.getHeight());
 		this.setRotation(MathUtils.radiansToDegrees * body.getAngle());		
 	}
+	
+	private void setListener(final World world)
+	{
+		this.addListener(new InputListener() {
+	        public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+	        	world.destroyBody(body);
+				myBody.this.remove();
+	            return true;
+	        }
+	        
+	        public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+	        	
+	        }
+	});		
+	}
+	
+	
 }

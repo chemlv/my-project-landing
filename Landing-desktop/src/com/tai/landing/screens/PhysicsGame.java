@@ -151,25 +151,9 @@ public class PhysicsGame extends BaseScreen {
 		pgroup.addActor(mb);
 	}
 	
-	private void Remove(float x, float y)
-	{
-		y = BaseScreen.VIEWPORT_HEIGHT - y;
-		myBody mb = (myBody) stage.hit(x, y, true);
-		if (mb != null)
-		{
-			world.destroyBody(mb.body);
-			mb.remove();
-		}
-	}
 	
 	@Override
 	public void render(float delta) {
-
-		if (Gdx.input.justTouched()) {
-			float x = Gdx.input.getX();
-			float y = Gdx.input.getY();
-			Remove(x, y);
-		}
 
 		stage.act(delta);
 
