@@ -3,12 +3,18 @@ package com.tai.landing.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.tiled.TileAtlas;
 import com.badlogic.gdx.graphics.g2d.tiled.TileMapRenderer;
 import com.badlogic.gdx.graphics.g2d.tiled.TiledLoader;
 import com.badlogic.gdx.graphics.g2d.tiled.TiledMap;
+import com.badlogic.gdx.graphics.g2d.tiled.TiledObject;
+import com.badlogic.gdx.graphics.g2d.tiled.TiledObjectGroup;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+import com.badlogic.gdx.scenes.scene2d.Group;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.tai.landing.gamelogic.Landing;
 
 public class PhysicsGame extends BaseScreen {
@@ -30,6 +36,9 @@ public class PhysicsGame extends BaseScreen {
 	static final int BOX_VELOCITY_ITERATIONS = 6;
 	static final int BOX_POSITION_ITERATIONS = 2;
 
+	Group group = new Group();
+	Group pgroup = new Group();
+	
 	public PhysicsGame(Landing game) {
 		super(game);
 	}
@@ -53,16 +62,82 @@ public class PhysicsGame extends BaseScreen {
 				camera.viewportHeight * .5f, 0f);
 		camera.update();
 
+		stage.addActor(group);
+		stage.addActor(pgroup);
+		
+		LoadActor();
 
 	}
+	
+	private void LoadActor() {
+		for (int i = 0; i < tiledMap.objectGroups.size(); i++) {
+			TiledObjectGroup group = tiledMap.objectGroups.get(i);
 
+			if ("static".equals(group.name)) 
+			{
+				for (int j = 0; j < group.objects.size(); j++) {
+					TiledObject object = group.objects.get(j);
+					CreateStaticBody(object);
+				}
+			}
+			else if ("dynamic".equals(group.name))
+			{
+				for (int j = 0; j < group.objects.size(); j++) {
+					TiledObject object = group.objects.get(j);
+					CreateDynamicBody(object);
+				}
+			}
+			else if ("player".equals(group.name))
+			{
+				for (int j = 0; j < group.objects.size(); j++) {
+					TiledObject object = group.objects.get(j);
+					CreatePlayerBody(object);
+				}
+			}
+		}
+	}
 
+	private void CreateStaticBody(TiledObject o)
+	{
+		TextureRegion tr = getAtlas().findRegion("static", Integer.parseInt(o.name));
+		myBody mb = new myBody(tr, o.width, o.height, world, BodyType.StaticBody, o.x, o.y);
+		mb.setTouchable(Touchable.disabled);
+		group.addActor(mb);
+	}
+	
+	private void CreateDynamicBody(TiledObject o)
+	{
+		TextureRegion tr = getAtlas().findRegion("dynamic", Integer.parseInt(o.name));
+		myBody mb = new myBody(tr, o.width, o.height, world, BodyType.StaticBody, o.x, o.y);
+		mb.setTouchable(Touchable.enabled);
+		group.addActor(mb);
+	}
+	
+	private void CreatePlayerBody(TiledObject o)
+	{
+		TextureRegion tr = getAtlas().findRegion("player", Integer.parseInt(o.name));
+		myBody mb = new myBody(tr, o.width, o.height, world, BodyType.StaticBody, o.x, o.y);
+		mb.setTouchable(Touchable.enabled);
+		pgroup.addActor(mb);
+	}
+	
+	private void Remove(float x, float y)
+	{
+		myBody mb = (myBody) stage.hit(x, y, true);
+		if (mb != null)
+		{
+			world.destroyBody(mb.body);
+			mb.remove();
+		}
+	}
+	
 	@Override
 	public void render(float delta) {
 
-		// Mỗi lần nhấn lên màn hình là tạo mới một dynamic body...
 		if (Gdx.input.justTouched()) {
-			
+			float x = Gdx.input.getX();
+			float y = Gdx.input.getY();
+			Remove(x, y);
 		}
 
 		stage.act(delta);
@@ -72,7 +147,7 @@ public class PhysicsGame extends BaseScreen {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 		camera.update();
-			tileMapRenderer.render(camera);
+		tileMapRenderer.render(camera);
 	
 		// Thục thi các hoạt động của các vật thể trong thế giới Box2D
 		world.step(BOX_STEP, BOX_VELOCITY_ITERATIONS, BOX_POSITION_ITERATIONS);

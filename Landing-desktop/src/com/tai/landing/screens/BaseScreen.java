@@ -47,18 +47,18 @@ public abstract class BaseScreen implements Screen {
 
 	public TextureAtlas getAtlas() {
 		if (atlas == null) {
-			atlas = new TextureAtlas(Gdx.files.internal("MyDataPacker/FileMoTa.txt"));
+			atlas = new TextureAtlas(Gdx.files.internal("data/MyDataPacker/FileMoTa.txt"));
 		}
 		return atlas;
 	}
 	
-	public Skin getSkin() {
+	/*public Skin getSkin() {
 		if (skin == null) {
 			skin = new Skin(Gdx.files.internal("data/uiskin.json"), new TextureAtlas(Gdx.files.internal("data/uiskin.atlas")));
 			//skin.addRegions(getAtlas());
 		}
 		return skin;
-	}
+	}*/
 	
 	@Override
     public void show()
