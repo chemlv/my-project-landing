@@ -16,6 +16,7 @@ public class myBody extends Image {
 	public static final float BOX_TO_WORLD = 100f;
 	
 	public Body body;
+	public String type = null; 
 	
 	public myBody(TextureRegion aregion, World world, BodyType type, float x, float y)
 	{
@@ -33,7 +34,7 @@ public class myBody extends Image {
 		body = world.createBody(bodyDef);
 		
 		setListener(world);
-		//body.setUserData(this);
+		body.setUserData(this);
 	}
 	
 	public void CreateFixture(myPolygonShape shape, float density, float friction, float restitution)
