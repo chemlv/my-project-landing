@@ -22,6 +22,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.tai.landing.customs.ResultNote;
 import com.tai.landing.customs.myBody;
 import com.tai.landing.customs.myPolygonShape;
 import com.tai.landing.gamelogic.Landing;
@@ -48,10 +49,12 @@ public class PhysicsGame extends BaseScreen {
 	static final int BOX_VELOCITY_ITERATIONS = 6;
 	static final int BOX_POSITION_ITERATIONS = 2;
 
+	Group note = new Group();
 	Group group = new Group();
 	Group pgroup = new Group();
 	
 	Label lb;
+	boolean isplaying = true;
 	
 	public PhysicsGame(Landing game, int level) {
 		super(game);
@@ -78,6 +81,7 @@ public class PhysicsGame extends BaseScreen {
 				camera.viewportHeight * .5f, 0f);
 		camera.update();
 		
+		stage.addActor(note);
 		stage.addActor(group);
 		stage.addActor(pgroup);
 		
@@ -134,6 +138,7 @@ public class PhysicsGame extends BaseScreen {
 		lb.setText("" + level + " / 25");
 		
 		world.dispose();
+		note.clear();
 		group.clear();
 		pgroup.clear();
 		world = new World(new Vector2(0, -10), true);
@@ -145,6 +150,7 @@ public class PhysicsGame extends BaseScreen {
 		tileMapRenderer = new TileMapRenderer(tiledMap, tileAtlas, 8, 8);
 			
 		LoadActor();
+		isplaying = true;
 	}
 	
 	private void LoadActor() {
@@ -245,20 +251,28 @@ public class PhysicsGame extends BaseScreen {
 			myBody mb = (myBody) pgroup.getChildren().get(i);
 			mb.UpdateFromBody();
 			
-			//kiem tra tat ca nhan vat deu duoi dat va khong bi nghieng
-			if (!mb.body.isAwake())
+			if (isplaying)
 			{
-				if (group.getChildren().size == 0) 
+				if (!mb.body.isAwake() || mb.getY() < -mb.getHeight())
 				{
-					if (mb.getRotation() > -90 && mb.getRotation() < 90)
+					
+					if (group.getChildren().size == 0) 
 					{
-						level = 2;
-						Reset();
-					}
-					else
-					{
-						level = 1;
-						Reset();
+						isplaying = false;
+						
+						ResultNote result;
+						if (mb.getRotation() > -30 && mb.getRotation() < 30)
+						{
+							result = new ResultNote(PhysicsGame.this, ResultNote.WIN);
+						}
+						else
+						{
+							result = new ResultNote(PhysicsGame.this, ResultNote.LOSE);
+						}
+						note.addActor(result);
+						note.setZIndex(stage.getActors().size);
+						result.Moving();
+
 					}
 				}
 			}
@@ -268,6 +282,27 @@ public class PhysicsGame extends BaseScreen {
 		
 		stage.draw();
 
+	}
+	
+	public void BackToMenu()
+	{
+		game.setScreen(game.getStartScreen());
+	}
+	
+	public void NextLevel()
+	{
+		level++;
+		Reset();
+	}
+	
+	public void StartAgain()
+	{
+		Reset();
+	}
+	
+	public void LevelSelect()
+	{
+		game.setScreen(game.getMenuScreen());
 	}
 	
 	@Override
