@@ -1,4 +1,4 @@
-package com.tai.landing.screens;
+package com.tai.landing.customs;
 
 import com.badlogic.gdx.graphics.g2d.tiled.TiledObject;
 import com.badlogic.gdx.math.Vector2;

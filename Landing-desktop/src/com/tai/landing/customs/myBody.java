@@ -1,4 +1,4 @@
-package com.tai.landing.screens;
+package com.tai.landing.customs;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
@@ -12,10 +12,10 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
 public class myBody extends Image {
-	static final float WORLD_TO_BOX = 0.01f;
-	static final float BOX_TO_WORLD = 100f;
+	public static final float WORLD_TO_BOX = 0.01f;
+	public static final float BOX_TO_WORLD = 100f;
 	
-	Body body;
+	public Body body;
 	
 	public myBody(TextureRegion aregion, World world, BodyType type, float x, float y)
 	{

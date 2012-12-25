@@ -1,4 +1,4 @@
-package com.tai.landing.screens;
+package com.tai.landing.customs;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;

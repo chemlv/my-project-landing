@@ -2,10 +2,22 @@ package com.tai.landing.gamelogic;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Screen;
+import com.tai.landing.screens.MenuScreen;
 import com.tai.landing.screens.PhysicsGame;
+import com.tai.landing.screens.StartScreen;
 
 public class Landing extends Game {
 
+	public StartScreen getStartScreen()
+	{
+		return new StartScreen(this);
+	}
+	
+	public MenuScreen getMenuScreen()
+	{
+		return new MenuScreen(this);
+	}
+	
 	public PhysicsGame getPhysicsGame(int level)
 	{
 		return new PhysicsGame(this, level);
@@ -25,7 +37,7 @@ public class Landing extends Game {
         // show the splash screen when the game is resized for the first time;
         // this approach avoids calling the screen's resize method repeatedly
         if( getScreen() == null ) {
-           setScreen( getPhysicsGame(1) );
+           setScreen( getStartScreen() );
         }
     }
 

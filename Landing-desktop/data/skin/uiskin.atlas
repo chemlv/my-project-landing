@@ -196,9 +196,16 @@ white
   orig: 1, 1
   offset: 0, 0
   index: -1
-wood
+woodup
   rotate: false
   xy: 208, 0
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: -1
+wooddown
+  rotate: false
+  xy: 208, 48
   size: 48, 48
   orig: 48, 48
   offset: 0, 0

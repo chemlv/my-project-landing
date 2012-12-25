@@ -52,13 +52,13 @@ public abstract class BaseScreen implements Screen {
 		return atlas;
 	}
 	
-	/*public Skin getSkin() {
+	public Skin getSkin() {
 		if (skin == null) {
-			skin = new Skin(Gdx.files.internal("data/uiskin.json"), new TextureAtlas(Gdx.files.internal("data/uiskin.atlas")));
+			skin = new Skin(Gdx.files.internal("data/skin/uiskin.json"), new TextureAtlas(Gdx.files.internal("data/skin/uiskin.atlas")));
 			//skin.addRegions(getAtlas());
 		}
 		return skin;
-	}*/
+	}
 	
 	@Override
     public void show()
