@@ -9,13 +9,18 @@ import com.badlogic.gdx.graphics.g2d.tiled.TileAtlas;
 import com.badlogic.gdx.graphics.g2d.tiled.TileMapRenderer;
 import com.badlogic.gdx.graphics.g2d.tiled.TiledLoader;
 import com.badlogic.gdx.graphics.g2d.tiled.TiledMap;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.Align;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.tai.landing.customs.ButtonLevel;
+import com.tai.landing.customs.ButtonLevel.onClickListener;
 import com.tai.landing.gamelogic.Landing;
 
 public class MenuScreen extends BaseScreen {
@@ -57,29 +62,43 @@ public class MenuScreen extends BaseScreen {
 	
 	private void LoadButtons()
 	{
-		//Image im = new Image(new TextureRegionDrawable( getAtlas().findRegion("dynamic", 1)));
-		//im.setSize(60, 60);
+		ButtonLevel.onClickListener l = new onClickListener() {
+			@Override
+			public void onUp(int id) {
+				game.setScreen(game.getPhysicsGame(id));
+			}
+		};
 		
-		TextButton tb = new TextButton("1", getSkin(), "selectlevel");
-		tb.setSize(48, 48);
-
-		//stage.addActor(im);
-		stage.addActor(tb);
-		
-		/*Table table = new Table();
-		table.setSize(BaseScreen.VIEWPORT_WIDTH, BaseScreen.VIEWPORT_HEIGHT);
-		for (int i = 1; i <= 5; i++)
+		Table table = new Table();
+		table.setPosition(BaseScreen.VIEWPORT_WIDTH / 2, BaseScreen.VIEWPORT_HEIGHT / 2 + 50);
+		for (int i = 0; i < 5; i++)
 		{
-			Label lb = new Label();
-			lb.setText("" + i);
-			table.add(lb);
+			for (int j = 0; j < 5; j++)
+			{
+				int id = (i * 5) + j;
+				ButtonLevel bl = new ButtonLevel(id + 1, getSkin(), l);
+				table.add(bl).pad(12, 24, 12, 24);
+			}
+			table.row();
 		}
+		stage.addActor(table);
+
 		
-		stage.addActor(table);*/
-	}
-	
-	private void CreateButton()
-	{
+		final TextButton btmenu = new TextButton("Back to Menu", getSkin());
+		btmenu.setSize(200, 50);
+		btmenu.setPosition(BaseScreen.VIEWPORT_WIDTH - 220, 20);
+		btmenu.addListener(new ClickListener() {
+			@Override
+			public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+				if ( x >= 0 && x < btmenu.getWidth() && y >= 0 && y < btmenu.getHeight())
+				{	
+					game.setScreen(game.getStartScreen());
+				}
+				super.touchUp(event, x, y, pointer, button);
+			}
+			
+		});
+		stage.addActor(btmenu);
 		
 	}
 	

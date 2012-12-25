@@ -16,7 +16,12 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.scenes.scene2d.Group;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.tai.landing.customs.myBody;
 import com.tai.landing.customs.myPolygonShape;
 import com.tai.landing.gamelogic.Landing;
@@ -46,6 +51,8 @@ public class PhysicsGame extends BaseScreen {
 	Group group = new Group();
 	Group pgroup = new Group();
 	
+	Label lb;
+	
 	public PhysicsGame(Landing game, int level) {
 		super(game);
 		this.level = level;
@@ -74,24 +81,70 @@ public class PhysicsGame extends BaseScreen {
 		stage.addActor(group);
 		stage.addActor(pgroup);
 		
+		AddButtons();
+		
 		LoadActor();
 
 	}
 	
+	private void AddButtons()
+	{
+		lb = new Label("" + level + " / 25", getSkin(), "level");
+		lb.setPosition(BaseScreen.VIEWPORT_WIDTH / 2 - lb.getWidth() / 2, BaseScreen.VIEWPORT_HEIGHT - lb.getHeight() - 10);
+		stage.addActor(lb);
+		
+		final Button bthome = new Button(new TextureRegionDrawable(getAtlas().findRegion("homeup")), new TextureRegionDrawable(getAtlas().findRegion("homedown")) );
+		bthome.setPosition(10, BaseScreen.VIEWPORT_HEIGHT - bthome.getHeight() - 10);
+		bthome.addListener(new ClickListener() {
+			@Override
+			public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+				if ( x >= 0 && x < bthome.getWidth() && y >= 0 && y < bthome.getHeight())
+				{	
+					game.setScreen(game.getStartScreen());
+				}
+				super.touchUp(event, x, y, pointer, button);
+			}
+			
+		});
+		stage.addActor(bthome);
+		
+		final Button btreset = new Button(new TextureRegionDrawable(getAtlas().findRegion("resetup")), new TextureRegionDrawable(getAtlas().findRegion("resetdown")) );
+		btreset.setPosition(bthome.getWidth() + 20, BaseScreen.VIEWPORT_HEIGHT - btreset.getHeight() - 10);
+		btreset.addListener(new ClickListener() {
+			@Override
+			public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+				if ( x >= 0 && x < btreset.getWidth() && y >= 0 && y < btreset.getHeight())
+				{	
+					Reset();
+				}
+				super.touchUp(event, x, y, pointer, button);
+			}
+			
+		});		
+		stage.addActor(btreset);
+
+		Button btsound = new Button(new TextureRegionDrawable(getAtlas().findRegion("soundup")), new TextureRegionDrawable(getAtlas().findRegion("sounddown")) );
+		btsound.setPosition(BaseScreen.VIEWPORT_WIDTH - btsound.getWidth() - 10, BaseScreen.VIEWPORT_HEIGHT - btsound.getHeight() - 10);
+		stage.addActor(btsound);
+	
+	}
+	
 	private void Reset()
 	{
-			world.dispose();
-			group.clear();
-			pgroup.clear();
-			world = new World(new Vector2(0, -10), true);
-			tileAtlas.dispose();
-			tileMapRenderer.dispose();
+		lb.setText("" + level + " / 25");
+		
+		world.dispose();
+		group.clear();
+		pgroup.clear();
+		world = new World(new Vector2(0, -10), true);
+		tileAtlas.dispose();
+		tileMapRenderer.dispose();
 			
-			tiledMap = TiledLoader.createMap(Gdx.files.internal("data/level/level" + level + ".tmx"));
-			tileAtlas = new TileAtlas(tiledMap, Gdx.files.internal("data/map"));
-			tileMapRenderer = new TileMapRenderer(tiledMap, tileAtlas, 8, 8);
+		tiledMap = TiledLoader.createMap(Gdx.files.internal("data/level/level" + level + ".tmx"));
+		tileAtlas = new TileAtlas(tiledMap, Gdx.files.internal("data/map"));
+		tileMapRenderer = new TileMapRenderer(tiledMap, tileAtlas, 8, 8);
 			
-			LoadActor();
+		LoadActor();
 	}
 	
 	private void LoadActor() {
