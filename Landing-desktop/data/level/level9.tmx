@@ -21,33 +21,60 @@
   </object>
  </objectgroup>
  <objectgroup height="30" name="dynamic" width="50">
-  <object name="1" type="govuong" x="273" y="363">
+  <object name="1" type="govuong" x="567" y="413">
    <polygon points="0,0 0,48 48,48 48,0"/>
   </object>
-  <object name="1" type="govuong" x="465" y="363">
+  <object name="1" type="govuong" x="671" y="413">
    <polygon points="0,0 0,48 48,48 48,0"/>
   </object>
-  <object name="1" type="govuong" x="465" y="310">
+  <object name="1" type="govuong" x="619" y="413">
    <polygon points="0,0 0,48 48,48 48,0"/>
   </object>
-  <object name="1" type="govuong" x="464" y="416">
+  <object name="1" type="govuong" x="638" y="360">
    <polygon points="0,0 0,48 48,48 48,0"/>
   </object>
-  <object name="1" type="govuong" x="273" y="310">
+  <object name="1" type="govuong" x="586" y="360">
    <polygon points="0,0 0,48 48,48 48,0"/>
   </object>
-  <object name="1" type="govuong" x="272" y="416">
+  <object name="1" type="govuong" x="606" y="309">
    <polygon points="0,0 0,48 48,48 48,0"/>
   </object>
-  <object name="2" type="govuong" x="273" y="257">
-   <polygon points="0,0 0,48 240,48 240,0"/>
-  </object>
-  <object name="1" type="govuong" x="113" y="415">
+  <object name="5" type="da" x="453" y="284">
    <polygon points="0,0 0,48 48,48 48,0"/>
+  </object>
+  <object name="5" type="da" x="108" y="213">
+   <polygon points="0,0 0,48 48,48 48,0"/>
+  </object>
+  <object name="6" type="govuong" x="105" y="157">
+   <polygon points="0,0 0,48 384,48 384,0"/>
+  </object>
+  <object name="5" type="da" x="509" y="269">
+   <polygon points="0,0 0,48 48,48 48,0"/>
+  </object>
+  <object name="4" type="gotron" x="139" y="66">
+   <polygon points="0,0 13,22 28,-11"/>
+  </object>
+  <object name="4" type="gotron" x="204" y="0">
+   <polygon points="0,0 13,22 28,-11"/>
+  </object>
+  <object name="4" type="gotron" x="214" y="93">
+   <polygon points="0,0 13,22 28,-11"/>
+  </object>
+  <object name="4" type="gotron" x="292" y="34">
+   <polygon points="0,0 13,22 28,-11"/>
+  </object>
+  <object name="4" type="gotron" x="354" y="93">
+   <polygon points="0,0 13,22 28,-11"/>
+  </object>
+  <object name="4" type="gotron" x="415" y="19">
+   <polygon points="0,0 13,22 28,-11"/>
+  </object>
+  <object name="4" type="gotron" x="357" y="-53">
+   <polygon points="0,0 13,22 28,-11"/>
   </object>
  </objectgroup>
  <objectgroup height="30" name="player" width="50">
-  <object name="2" type="heo" x="279" y="141">
+  <object name="2" type="heo" x="579" y="192">
    <polygon points="0,0 1,34 25,111 73,111 101,34 100,-1"/>
   </object>
  </objectgroup>

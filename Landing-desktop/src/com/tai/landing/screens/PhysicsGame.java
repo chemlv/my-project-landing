@@ -287,15 +287,16 @@ public class PhysicsGame extends BaseScreen {
 		
 		if (isplaying) // kiem tra tinh trang cua cac chu heo
 		{
-			int status = -1;
+			int NumWin = 0;
+			int NumLose = 0;
+			
 			for (int i = 0; i < pgroup.getChildren().size; i++)
 			{
-				status = -1;
 				myBody mb = (myBody) pgroup.getChildren().get(i);
 				
 				if ( mb.getY() < -mb.getHeight()) //nếu một con lọt xuống hố, cả bầy cùng thua...
 				{
-					status = ResultNote.LOSE;
+					NumLose ++;
 					break;
 				}
 				else if (!mb.body.isAwake()) // đã nằm yên
@@ -304,26 +305,20 @@ public class PhysicsGame extends BaseScreen {
 					{
 						if (mb.getRotation() > -30 && mb.getRotation() < 30)
 						{
-							status = ResultNote.WIN; //một con thắng, tiếp tục xét hết cả bầy...
+							NumWin++;
 						}
 						else
 						{
-							status = ResultNote.LOSE; //một con thua, cả bầy cùng thua...
+							NumLose++;
 							break;
 						}
 					}
-					else //một con chưa đáp thì cả bầy phải chờ...
-					{
-						break; 
-					}
 				}
-				else //một con còn nhảy lung tung thì cả bầy chờ....
-				{
-					break;
-				}
-					
 			}
 			
+			int status = -1;
+			if (NumLose > 0) status = ResultNote.LOSE;
+			else if (NumWin >= pgroup.getChildren().size) status = ResultNote.WIN;
 			if (status >= 0)
 			{
 				isplaying = false;

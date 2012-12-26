@@ -21,33 +21,45 @@
   </object>
  </objectgroup>
  <objectgroup height="30" name="dynamic" width="50">
-  <object name="1" type="govuong" x="273" y="363">
+  <object name="1" type="govuong" x="211" y="361">
    <polygon points="0,0 0,48 48,48 48,0"/>
   </object>
-  <object name="1" type="govuong" x="465" y="363">
+  <object name="3" type="govuong" x="170" y="414">
+   <polygon points="0,0 0,48 96,48 96,0"/>
+  </object>
+  <object name="3" type="govuong" x="171" y="309">
+   <polygon points="0,0 0,48 96,48 96,0"/>
+  </object>
+  <object name="3" type="govuong" x="167" y="153">
+   <polygon points="0,0 0,48 96,48 96,0"/>
+  </object>
+  <object name="3" type="govuong" x="507" y="414">
+   <polygon points="0,0 0,48 96,48 96,0"/>
+  </object>
+  <object name="3" type="govuong" x="508" y="309">
+   <polygon points="0,0 0,48 96,48 96,0"/>
+  </object>
+  <object name="3" type="govuong" x="504" y="153">
+   <polygon points="0,0 0,48 96,48 96,0"/>
+  </object>
+  <object name="1" type="govuong" x="511" y="362">
    <polygon points="0,0 0,48 48,48 48,0"/>
   </object>
-  <object name="1" type="govuong" x="465" y="310">
+  <object name="6" type="govuong" x="196" y="258">
+   <polygon points="0,0 0,48 384,48 384,0"/>
+  </object>
+  <object name="1" type="govuong" x="208" y="205">
    <polygon points="0,0 0,48 48,48 48,0"/>
   </object>
-  <object name="1" type="govuong" x="464" y="416">
-   <polygon points="0,0 0,48 48,48 48,0"/>
-  </object>
-  <object name="1" type="govuong" x="273" y="310">
-   <polygon points="0,0 0,48 48,48 48,0"/>
-  </object>
-  <object name="1" type="govuong" x="272" y="416">
-   <polygon points="0,0 0,48 48,48 48,0"/>
-  </object>
-  <object name="2" type="govuong" x="273" y="257">
-   <polygon points="0,0 0,48 240,48 240,0"/>
-  </object>
-  <object name="1" type="govuong" x="113" y="415">
+  <object name="1" type="govuong" x="508" y="206">
    <polygon points="0,0 0,48 48,48 48,0"/>
   </object>
  </objectgroup>
  <objectgroup height="30" name="player" width="50">
-  <object name="2" type="heo" x="279" y="141">
+  <object name="1" type="heo" x="180" y="38">
+   <polygon points="0,0 1,34 25,111 73,111 101,34 100,-1"/>
+  </object>
+  <object name="3" type="heo" x="486" y="37">
    <polygon points="0,0 1,34 25,111 73,111 101,34 100,-1"/>
   </object>
  </objectgroup>
