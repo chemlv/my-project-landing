@@ -18,10 +18,15 @@ public class myBody extends Image {
 	public Body body;
 	public String type = null; 
 	
-	public myBody(TextureRegion aregion, World world, BodyType type, float x, float y)
+	private boolean isCircle;
+	
+	public myBody(TextureRegion aregion, World world, BodyType type, float x, float y, boolean isCircle)
 	{
 		super(aregion);
-		this.setOrigin(0, this.getHeight());
+		
+		this.isCircle = isCircle;
+		if (isCircle) this.setOrigin(this.getWidth()/2, this.getHeight()/2);
+		else this.setOrigin(0, this.getHeight());
 		
 		BodyDef bodyDef = new BodyDef();
 		bodyDef.type = type;
@@ -49,6 +54,18 @@ public class myBody extends Image {
 		this.setSize(shape.getWidth() * BOX_TO_WORLD, shape.getHeight() * BOX_TO_WORLD);
 	}
 	
+	public void CreateFixture(myCircleShape shape, float density, float friction, float restitution)
+	{
+		FixtureDef fixtureDef = new FixtureDef();
+		fixtureDef.shape = shape;
+		fixtureDef.density = density; // độ đậm đặc
+		fixtureDef.friction = friction; // độ ma sát
+		fixtureDef.restitution = restitution; // độ đàn hồi
+		body.createFixture(fixtureDef);
+		
+		this.setSize(shape.getWidth() * BOX_TO_WORLD, shape.getHeight() * BOX_TO_WORLD);
+	}
+	
 	public void UpdateFromBody()
 	{
 		float x = body.getPosition().x; 
@@ -56,7 +73,9 @@ public class myBody extends Image {
 		float y = body.getPosition().y;
 		y = y * BOX_TO_WORLD;
 
-		this.setPosition(x, y - this.getHeight());
+		if (isCircle) this.setPosition(x - this.getWidth()/2, y - this.getHeight()/2);
+		else this.setPosition(x, y - this.getHeight());
+		
 		this.setRotation(MathUtils.radiansToDegrees * body.getAngle());		
 	}
 	

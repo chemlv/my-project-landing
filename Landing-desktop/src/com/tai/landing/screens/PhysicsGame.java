@@ -3,6 +3,7 @@ package com.tai.landing.screens;
 import java.util.List;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -12,10 +13,10 @@ import com.badlogic.gdx.graphics.g2d.tiled.TiledLoader;
 import com.badlogic.gdx.graphics.g2d.tiled.TiledMap;
 import com.badlogic.gdx.graphics.g2d.tiled.TiledObject;
 import com.badlogic.gdx.graphics.g2d.tiled.TiledObjectGroup;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
@@ -28,6 +29,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.tai.landing.customs.ResultNote;
 import com.tai.landing.customs.myBody;
+import com.tai.landing.customs.myCircleShape;
 import com.tai.landing.customs.myPolygonShape;
 import com.tai.landing.gamelogic.Landing;
 
@@ -203,21 +205,48 @@ public class PhysicsGame extends BaseScreen {
 	
 	private void CreateDynamicBody(TiledObject o)
 	{
-		TextureRegion tr = getAtlas().findRegion("dynamic", Integer.parseInt(o.name));
-		myBody mb = new myBody(tr, world, BodyType.DynamicBody, o.x,  BaseScreen.VIEWPORT_HEIGHT - o.y - o.height);
-		mb.type = o.type;
-		
-		myPolygonShape poly= new myPolygonShape(o);
-		mb.CreateFixture(poly, 1f, 0.5f, 0f);
-		
-		mb.setTouchable(Touchable.enabled);
-		group.addActor(mb);
+		if ("da".equals(o.type))
+		{
+			TextureRegion tr = getAtlas().findRegion("dynamic", Integer.parseInt(o.name));
+			myBody mb = new myBody(tr, world, BodyType.StaticBody, o.x,  BaseScreen.VIEWPORT_HEIGHT - o.y - o.height, false);
+			mb.type = o.type;
+			
+			myPolygonShape poly= new myPolygonShape(o);
+			mb.CreateFixture(poly, 1f, 0.5f, 0f);
+			
+			mb.setTouchable(Touchable.disabled);
+			group.addActor(mb);
+		}
+		else if ("gotron".equals(o.type))
+		{
+			TextureRegion tr = getAtlas().findRegion("dynamic", Integer.parseInt(o.name));
+			myBody mb = new myBody(tr, world, BodyType.DynamicBody, o.x,  BaseScreen.VIEWPORT_HEIGHT - o.y - o.height, true);
+			mb.type = o.type;
+			
+			myCircleShape circle= new myCircleShape(o);
+			mb.CreateFixture(circle, 1f, 0.5f, 0f);
+			
+			mb.setTouchable(Touchable.enabled);
+			group.addActor(mb);
+		}
+		else
+		{
+			TextureRegion tr = getAtlas().findRegion("dynamic", Integer.parseInt(o.name));
+			myBody mb = new myBody(tr, world, BodyType.DynamicBody, o.x,  BaseScreen.VIEWPORT_HEIGHT - o.y - o.height, false);
+			mb.type = o.type;
+			
+			myPolygonShape poly= new myPolygonShape(o);
+			mb.CreateFixture(poly, 1f, 0.5f, 0f);
+			
+			mb.setTouchable(Touchable.enabled);
+			group.addActor(mb);
+		}
 	}
 	
 	private void CreatePlayerBody(TiledObject o)
 	{
 		TextureRegion tr = getAtlas().findRegion("player", Integer.parseInt(o.name));
-		myBody mb = new myBody(tr, world, BodyType.DynamicBody, o.x,  BaseScreen.VIEWPORT_HEIGHT - o.y - o.height);
+		myBody mb = new myBody(tr, world, BodyType.DynamicBody, o.x,  BaseScreen.VIEWPORT_HEIGHT - o.y - o.height, false);
 		mb.type = o.type;
 		
 		myPolygonShape poly= new myPolygonShape(o);
@@ -250,98 +279,126 @@ public class PhysicsGame extends BaseScreen {
 			myBody mb = (myBody) group.getChildren().get(i);
 			mb.UpdateFromBody();
 		}
-
-		
-		int status = -1;
 		for (int i = 0; i < pgroup.getChildren().size; i++)
 		{
 			myBody mb = (myBody) pgroup.getChildren().get(i);
 			mb.UpdateFromBody();
-			
-			if (isplaying)
+		}
+		
+		if (isplaying) // kiem tra tinh trang cua cac chu heo
+		{
+			int status = -1;
+			for (int i = 0; i < pgroup.getChildren().size; i++)
 			{
-				if (!mb.body.isAwake() || mb.getY() < -mb.getHeight())
+				status = -1;
+				myBody mb = (myBody) pgroup.getChildren().get(i);
+				
+				if ( mb.getY() < -mb.getHeight()) //nếu một con lọt xuống hố, cả bầy cùng thua...
 				{
-					
-					if (isLand()) 
+					status = ResultNote.LOSE;
+					break;
+				}
+				else if (!mb.body.isAwake()) // đã nằm yên
+				{
+					if (isLand(mb)) 
 					{
-						isplaying = false;
-						
 						if (mb.getRotation() > -30 && mb.getRotation() < 30)
 						{
-							status = ResultNote.WIN;
-							break;
+							status = ResultNote.WIN; //một con thắng, tiếp tục xét hết cả bầy...
 						}
 						else
 						{
-							status = ResultNote.LOSE;
+							status = ResultNote.LOSE; //một con thua, cả bầy cùng thua...
 							break;
 						}
 					}
+					else //một con chưa đáp thì cả bầy phải chờ...
+					{
+						break; 
+					}
 				}
+				else //một con còn nhảy lung tung thì cả bầy chờ....
+				{
+					break;
+				}
+					
 			}
 			
-		}
-		
-		if (status >= 0)
-		{
-			ResultNote result;
-			result = new ResultNote(PhysicsGame.this, status);
-			note.addActor(result);
-			note.setZIndex(stage.getActors().size);
-			result.Moving();
-
+			if (status >= 0)
+			{
+				isplaying = false;
+				if (status == ResultNote.WIN)
+				{
+					Preferences prefs = Gdx.app.getPreferences("mypreferences");
+					int sLevel = prefs.getInteger("level", 1);
+					
+					if (level + 1 > sLevel)
+					{
+						prefs.putInteger("level", level + 1);
+						prefs.flush();
+					}
+				}
+	
+				ResultNote result;
+				result = new ResultNote(PhysicsGame.this, status);
+				note.addActor(result);
+				note.setZIndex(stage.getActors().size);
+				result.Moving();
+	
+			}
 		}
 		
 		stage.draw();
 
 	}
 	
-	private boolean isLand()
+	private boolean isLand(myBody mb)
 	{
 		boolean kq = true;
-		
-		/*for (int i = 0; i < group.getChildren().size; i++)
-		{
-			myBody d = (myBody)group.getChildren().get(i);
-			
-			Rectangle recb = new Rectangle(b.getX(), b.getY(), b.getWidth(), b.getHeight());
-			Rectangle recd = new Rectangle(d.getX(), d.getY(), d.getWidth(), d.getHeight());
-			
-			if (recb.overlaps(recd)) {
-				kq = false;
-				break;
-			}
-		}*/
+		boolean OnGround = false;
 		
 		List<Contact> cons = world.getContactList();
 		for (int i = 0; i < cons.size(); i++)
 		{
-			myBody mb1 = (myBody)cons.get(i).getFixtureA().getBody().getUserData();
-			myBody mb2 = (myBody)cons.get(i).getFixtureB().getBody().getUserData();
-			
-			String t1 = mb1 == null ? "dat" : mb1.type;
-			String t2 = mb2 == null ? "dat" : mb2.type;
+			Contact contact = cons.get(i);
+			if (contact.isTouching())
+			{
+				myBody mb1 = (myBody)contact.getFixtureA().getBody().getUserData();
+				myBody mb2 = (myBody)contact.getFixtureB().getBody().getUserData();
 				
-			if ("heo".equals(t1))
-			{
-				if (!"dat".equals(t2))
+				String t1 = mb1 == null ? "dat" : mb1.type;
+				String t2 = mb2 == null ? "dat" : mb2.type;
+				
+				if ("da".equals(t1) || "da".equals(t2)) continue;
+					
+				if (mb.equals(mb1))
 				{
-					kq = false;
-					break;
+					if (!"dat".equals(t2))
+					{
+						kq = false;
+						break;
+					}
+					else
+					{
+						OnGround = true;
+					}
 				}
-			}
-			else if ("heo".equals(t2))
-			{
-				if (!"dat".equals(t1))
+				else if (mb.equals(mb2))
 				{
-					kq = false;
-					break;
+					if (!"dat".equals(t1))
+					{
+						kq = false;
+						break;
+					}
+					else
+					{
+						OnGround = true;
+					}
 				}
 			}
 		}		
 		
-		return kq;
+		return (kq && OnGround);
 	}
 	
 	public void BackToMenu()

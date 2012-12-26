@@ -198,16 +198,24 @@ white
   index: -1
 woodup
   rotate: false
-  xy: 208, 0
-  size: 48, 48
-  orig: 48, 48
+  xy: 0, 68
+  size: 60, 60
+  orig: 60, 60
   offset: 0, 0
   index: -1
 wooddown
   rotate: false
-  xy: 208, 48
-  size: 48, 48
-  orig: 48, 48
+  xy: 60, 68
+  size: 60, 60
+  orig: 60, 60
   offset: 0, 0
   index: -1
+woodlock
+  rotate: false
+  xy: 120, 68
+  size: 60, 60
+  orig: 60, 60
+  offset: 0, 0
+  index: -1
+
   

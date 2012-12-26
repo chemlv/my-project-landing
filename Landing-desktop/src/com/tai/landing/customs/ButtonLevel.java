@@ -11,17 +11,19 @@ public class ButtonLevel extends TextButton {
 	private static int HEIGHT = 60;
 	
 	private int id;
+	private boolean islock;
 	
 	private onClickListener listener;
 	public interface onClickListener {
 		public void onUp(int id);
 	}
 	
-	public ButtonLevel(int id, Skin skin, onClickListener listener) {
-		super("" + id, skin, "selectlevel");
+	public ButtonLevel(int id, boolean islock, Skin skin, onClickListener listener) {
+		super("" + id, skin, islock ? "locklevel" : "selectlevel");
 		
 		this.setSize(WIDTH, HEIGHT);
 		this.id = id;
+		this.islock = islock;
 		this.listener = listener;
 		SetOnClick();
 	}
@@ -33,7 +35,8 @@ public class ButtonLevel extends TextButton {
 			public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
 				if ( x >= 0 && x < WIDTH && y >= 0 && y < HEIGHT)
 				{	
-					if (listener!=null) listener.onUp(id);
+					if (!islock)
+						if (listener!=null) listener.onUp(id);
 				}
 				super.touchUp(event, x, y, pointer, button);
 			}

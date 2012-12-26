@@ -1,8 +1,7 @@
 package com.tai.landing.screens;
 
-import java.awt.Label;
-
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.tiled.TileAtlas;
@@ -10,15 +9,9 @@ import com.badlogic.gdx.graphics.g2d.tiled.TileMapRenderer;
 import com.badlogic.gdx.graphics.g2d.tiled.TiledLoader;
 import com.badlogic.gdx.graphics.g2d.tiled.TiledMap;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.tai.landing.customs.ButtonLevel;
 import com.tai.landing.customs.ButtonLevel.onClickListener;
 import com.tai.landing.gamelogic.Landing;
@@ -62,6 +55,9 @@ public class MenuScreen extends BaseScreen {
 	
 	private void LoadButtons()
 	{
+		Preferences prefs = Gdx.app.getPreferences("mypreferences");
+		int level = prefs.getInteger("level", 1);
+		
 		ButtonLevel.onClickListener l = new onClickListener() {
 			@Override
 			public void onUp(int id) {
@@ -76,8 +72,14 @@ public class MenuScreen extends BaseScreen {
 			for (int j = 0; j < 5; j++)
 			{
 				int id = (i * 5) + j;
-				ButtonLevel bl = new ButtonLevel(id + 1, getSkin(), l);
-				table.add(bl).pad(12, 24, 12, 24);
+				
+				ButtonLevel bl;
+				if (id + 1 <= level)
+					bl = new ButtonLevel(id + 1, false, getSkin(), l);
+				else
+					bl = new ButtonLevel(id + 1, true, getSkin(), l);
+				
+				table.add(bl).pad(8, 20, 8, 20);
 			}
 			table.row();
 		}

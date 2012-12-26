@@ -5,106 +5,162 @@ filter: Nearest,Nearest
 repeat: none
 noteboard
   rotate: false
-  xy: 1, 95
+  xy: 1, 111
   size: 533, 399
   orig: 533, 399
   offset: 0, 0
   index: -1
 dynamic
   rotate: false
-  xy: 1, 45
+  xy: 1, 61
+  size: 384, 48
+  orig: 384, 48
+  offset: 0, 0
+  index: 6
+dynamic
+  rotate: false
+  xy: 536, 462
   size: 240, 48
   orig: 240, 48
   offset: 0, 0
   index: 2
 landing
   rotate: false
-  xy: 536, 423
+  xy: 536, 389
   size: 212, 71
   orig: 212, 71
   offset: 0, 0
   index: -1
 failure
   rotate: false
-  xy: 1, 1
+  xy: 1, 17
   size: 176, 42
   orig: 176, 42
   offset: 0, 0
   index: -1
 victory
   rotate: false
-  xy: 536, 370
+  xy: 536, 336
   size: 166, 51
   orig: 166, 51
   offset: 0, 0
   index: -1
 player
   rotate: false
-  xy: 536, 260
+  xy: 536, 226
   size: 99, 108
   orig: 99, 108
   offset: 0, 0
   index: 1
+player
+  rotate: false
+  xy: 536, 116
+  size: 99, 108
+  orig: 99, 108
+  offset: 0, 0
+  index: 2
+player
+  rotate: false
+  xy: 637, 226
+  size: 99, 108
+  orig: 99, 108
+  offset: 0, 0
+  index: 3
+player
+  rotate: false
+  xy: 637, 116
+  size: 99, 108
+  orig: 99, 108
+  offset: 0, 0
+  index: 4
+player
+  rotate: false
+  xy: 387, 1
+  size: 99, 108
+  orig: 99, 108
+  offset: 0, 0
+  index: 5
+dynamic
+  rotate: false
+  xy: 778, 462
+  size: 96, 48
+  orig: 96, 48
+  offset: 0, 0
+  index: 3
+dynamic
+  rotate: false
+  xy: 750, 378
+  size: 82, 82
+  orig: 82, 82
+  offset: 0, 0
+  index: 4
 mutedown
   rotate: false
-  xy: 750, 434
+  xy: 876, 450
   size: 60, 60
   orig: 60, 60
   offset: 0, 0
   index: -1
 muteup
   rotate: false
-  xy: 536, 198
+  xy: 938, 450
   size: 60, 60
   orig: 60, 60
   offset: 0, 0
   index: -1
 sounddown
   rotate: false
-  xy: 637, 308
+  xy: 488, 49
   size: 60, 60
   orig: 60, 60
   offset: 0, 0
   index: -1
 soundup
   rotate: false
-  xy: 812, 434
+  xy: 550, 54
   size: 60, 60
   orig: 60, 60
   offset: 0, 0
   index: -1
 homedown
   rotate: false
-  xy: 536, 141
+  xy: 612, 59
   size: 55, 55
   orig: 55, 55
   offset: 0, 0
   index: -1
 homeup
   rotate: false
-  xy: 874, 439
+  xy: 669, 59
   size: 55, 55
   orig: 55, 55
   offset: 0, 0
   index: -1
 resetdown
   rotate: false
-  xy: 931, 439
+  xy: 179, 4
   size: 55, 55
   orig: 55, 55
   offset: 0, 0
   index: -1
 resetup
   rotate: false
-  xy: 243, 38
+  xy: 236, 4
   size: 55, 55
   orig: 55, 55
   offset: 0, 0
   index: -1
 dynamic
   rotate: false
-  xy: 300, 45
+  xy: 293, 11
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: 1
+dynamic
+  rotate: false
+  xy: 726, 66
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: 5
