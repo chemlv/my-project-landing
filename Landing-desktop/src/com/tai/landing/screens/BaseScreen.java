@@ -1,14 +1,21 @@
 package com.tai.landing.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.tai.landing.gamelogic.Landing;
 
 public abstract class BaseScreen implements Screen {
@@ -16,6 +23,14 @@ public abstract class BaseScreen implements Screen {
     public static final int VIEWPORT_WIDTH = 800, VIEWPORT_HEIGHT = 480;
     public static final int TILE = 16;
     
+	private Button btsound;
+	private Button btmute;
+	
+	public static Music bg_music;
+	public static Sound remove;
+	public static Sound winner;
+	public static Sound lose; 	
+	
 	protected final Landing game;
 	protected final Stage stage;
 
@@ -65,6 +80,71 @@ public abstract class BaseScreen implements Screen {
     {
         // set the stage as the input processor
         Gdx.input.setInputProcessor( stage );
+        
+        bg_music = Gdx.audio.newMusic(Gdx.files.internal("data/sound/bg_music.ogg"));
+		bg_music.setLooping(true);
+		
+		remove = Gdx.audio.newSound(Gdx.files.internal("data/sound/remove.ogg"));
+		winner = Gdx.audio.newSound(Gdx.files.internal("data/sound/winner.ogg"));
+		lose = Gdx.audio.newSound(Gdx.files.internal("data/sound/lose.ogg"));
+        
+		btsound = new Button(new TextureRegionDrawable(getAtlas().findRegion("soundup")), new TextureRegionDrawable(getAtlas().findRegion("sounddown")) );
+		btsound.setPosition(BaseScreen.VIEWPORT_WIDTH - btsound.getWidth() - 10, BaseScreen.VIEWPORT_HEIGHT - btsound.getHeight() - 10);
+		btsound.addListener(new ClickListener() {
+			@Override
+			public void touchUp(InputEvent event, float x, float y, int pointer, int button) 
+			{
+				if ( x >= 0 && x < btsound.getWidth() && y >= 0 && y < btsound.getHeight() )
+				{
+					Preferences prefs = Gdx.app.getPreferences("mypreferences");
+					prefs.putBoolean("SoundOn", false);
+					prefs.flush();
+					
+					btsound.setVisible(false);
+					btmute.setVisible(true);
+					bg_music.stop();
+				}
+				super.touchUp(event, x, y, pointer, button);
+			}
+		});
+        
+		btmute = new Button(new TextureRegionDrawable(getAtlas().findRegion("muteup")), new TextureRegionDrawable(getAtlas().findRegion("mutedown")) );
+		btmute.setPosition(BaseScreen.VIEWPORT_WIDTH - btmute.getWidth() - 10, BaseScreen.VIEWPORT_HEIGHT - btmute.getHeight() - 10);
+		btmute.addListener(new ClickListener() {
+			@Override
+			public void touchUp(InputEvent event, float x, float y, int pointer, int button) 
+			{
+				if ( x >= 0 && x < btmute.getWidth() && y >= 0 && y < btmute.getHeight() )
+				{
+					Preferences prefs = Gdx.app.getPreferences("mypreferences");
+					prefs.putBoolean("SoundOn", true);
+					prefs.flush();
+					
+					btsound.setVisible(true);
+					btmute.setVisible(false);
+					bg_music.play();
+				}
+				super.touchUp(event, x, y, pointer, button);
+			}
+		});		
+		
+		Preferences prefs = Gdx.app.getPreferences("mypreferences");
+		boolean isSoundOn = prefs.getBoolean("SoundOn", true);
+		if (isSoundOn)
+		{
+			btsound.setVisible(true);
+			btmute.setVisible(false);
+			bg_music.play();
+		}
+		else
+		{
+			btsound.setVisible(false);
+			btmute.setVisible(true);
+			bg_music.stop();
+		}		
+		
+		stage.addActor(btsound);
+		stage.addActor(btmute);
     }
 
     @Override
@@ -120,6 +200,11 @@ public abstract class BaseScreen implements Screen {
         if( batch != null ) batch.dispose();
         if( atlas != null ) atlas.dispose();
         if (skin != null) skin.dispose();
+        bg_music.dispose();
+        remove.dispose();
+		winner.dispose();
+		lose.dispose();
+
     }
 	
 }

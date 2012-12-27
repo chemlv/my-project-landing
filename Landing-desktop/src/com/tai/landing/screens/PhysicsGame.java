@@ -16,7 +16,6 @@ import com.badlogic.gdx.graphics.g2d.tiled.TiledObjectGroup;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
@@ -132,15 +131,18 @@ public class PhysicsGame extends BaseScreen {
 			
 		});		
 		stage.addActor(btreset);
-
-		Button btsound = new Button(new TextureRegionDrawable(getAtlas().findRegion("soundup")), new TextureRegionDrawable(getAtlas().findRegion("sounddown")) );
-		btsound.setPosition(BaseScreen.VIEWPORT_WIDTH - btsound.getWidth() - 10, BaseScreen.VIEWPORT_HEIGHT - btsound.getHeight() - 10);
-		stage.addActor(btsound);
 	
 	}
 	
 	private void Reset()
 	{
+		Preferences prefs = Gdx.app.getPreferences("mypreferences");
+		boolean isSoundOn = prefs.getBoolean("SoundOn", true);
+    	if (isSoundOn)
+    	{
+    		if (!bg_music.isPlaying()) bg_music.play();
+    	}
+		
 		lb.setText("" + level + " / 25");
 		
 		world.dispose();
@@ -324,13 +326,17 @@ public class PhysicsGame extends BaseScreen {
 				isplaying = false;
 				if (status == ResultNote.WIN)
 				{
-					Preferences prefs = Gdx.app.getPreferences("mypreferences");
-					int sLevel = prefs.getInteger("level", 1);
-					
-					if (level + 1 > sLevel)
+					if (level == 25) status = ResultNote.COMP;
+					else
 					{
-						prefs.putInteger("level", level + 1);
-						prefs.flush();
+						Preferences prefs = Gdx.app.getPreferences("mypreferences");
+						int sLevel = prefs.getInteger("level", 1);
+						
+						if (level + 1 > sLevel)
+						{
+							prefs.putInteger("level", level + 1);
+							prefs.flush();
+						}
 					}
 				}
 	
@@ -339,7 +345,6 @@ public class PhysicsGame extends BaseScreen {
 				note.addActor(result);
 				note.setZIndex(stage.getActors().size);
 				result.Moving();
-	
 			}
 		}
 		

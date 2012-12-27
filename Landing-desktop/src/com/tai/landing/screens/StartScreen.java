@@ -1,6 +1,7 @@
 package com.tai.landing.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.tiled.TileAtlas;
@@ -21,7 +22,7 @@ public class StartScreen extends BaseScreen {
 	TileMapRenderer tileMapRenderer;
 	
 	OrthographicCamera camera;
-	
+
 	public StartScreen(Landing game) {
 		super(game);
 	}
@@ -30,7 +31,7 @@ public class StartScreen extends BaseScreen {
 	public void show() {
 
 		super.show();
-		
+
 		// Nạp TiledMap
 		tiledMap = TiledLoader.createMap(Gdx.files.internal("data/level/level1.tmx"));
 		tileAtlas = new TileAtlas(tiledMap, Gdx.files.internal("data/map"));
@@ -45,6 +46,8 @@ public class StartScreen extends BaseScreen {
 		camera.update();	
 		
 		LoadButton();
+		
+		
 		
 	}
 	
@@ -96,7 +99,6 @@ public class StartScreen extends BaseScreen {
 		stage.addActor(pig);
 		stage.addActor(btnew);
 		stage.addActor(btselect);
-		
 	}
 	
 
@@ -121,7 +123,6 @@ public class StartScreen extends BaseScreen {
 		super.dispose();
 		tileAtlas.dispose();
 		tileMapRenderer.dispose();
-		
     }	
 	
 	

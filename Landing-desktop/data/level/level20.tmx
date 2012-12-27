@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="50" height="30" tilewidth="16" tileheight="16">
+ <properties>
+  <property name="blended tiles" value=""/>
+ </properties>
+ <tileset firstgid="1" name="nenbg" tilewidth="16" tileheight="16">
+  <image source="nenbg.png" width="800" height="224"/>
+ </tileset>
+ <layer name="Sky" width="50" height="30">
+  <data encoding="base64" compression="zlib">
+   eJztw7EJAAAIA7DW/4/2ChdJIE1SVVVVVfX0qO8vu54G1w==
+  </data>
+ </layer>
+ <layer name="ground" width="50" height="30">
+  <data encoding="base64" compression="zlib">
+   eJzt10UQllUAhtFfQFG6EUFCulNSulEQpbu7G6S7ke7uUmlQsJAu6RKQ7i4pxePATlggM+KM/zP3LO/M+y2+xY0UCAQiE4WoRCN64L9TWMIRnghEJFLg75vzkZ8CFKQQhV/B3ueVk1zkJg95A8/e3Jo2tKUd7enw7899bs1oTgta0irw7M2zmcNc5jGfBa9g7/OaxnRmMJNZgWdvDhYsWLBgwYIFC/b/LRWpSUNa0pGeDK9y1D+oKtWoTg1qUova1KEu9ahPAxrSiMY0oWngyTvgZetGd3rQk14veH8owxjOCEYyitGMYSzjGM8EJjKJyUxhauDJO+BlW8JSlrGcFS94fy0/sY71bGAjm9jMFrayje3s4Gd2sovd7GEv+9jPAQ5yiMP8whGOcoxfOc4JTnKK05zhLOc4zwUuconLXOEq17jODW5yi9vc4S6/cY/7POAhj/idP3j814e/5hCCkITidd4gNG/yFmEISzjCE4GIRCIyUYhKNKITg5i8TSzeITZxeJe4xCM+CXiPhCQiMUlISjKSk4KUpCI1aUhLOtKTgYxk4n0yk4WsZCM7OfiAnOQiN3nISz7yU4CCFKIwRShKMT7kI4pTgo8pySd8SilKU4aylKM8FahIJSpThapUozo1qEktalOHutSjPg1oSCMa04SmNKM5LWhJK1rThra0oz0d+IyOdKIzXehKN7rTg570ojd96Es/+jOAgQxiMEP4nKEMYzgjGMkoRjOGsYxjPBOYyCQmM4WpTGM6M5jJLGYzh7nMYz4LWMgXfMlXLGIxS1jKMpazgpWs4mu+YTVr+Jbv+J4f+JG1/MQ61rOBjWxiM1vYyja2s4Of2ckudrOHvexjPwc4yCEO8wtHOMoxfuU4JzjJKU5zhrOc4zwXuMglLnOFq1zjOje4yS1uc4e7/MY97vOAhzzid/7gMYEQ/n9CEJJQvM4bhOZN3iIMYQlHeCIQkUhEJgpRiUZ0YhCTt4nFO8QmDu8Sl3jEJwHvkZBEJCYJSUlGclKQklSkJg1pSUd6MpCRTLxPZrKQlWxkJwcfkJNc5CYPeclHfgpQkEIUpghFKcaHfERxSvAxJfmETylFacpQlnKUpwIVqURlqlCValSnBjWpTR3qUo/6NKAhjWhME5rSjOa0oCWtaE0b2tKO9nTgMzrSic50oSvd6E4PetKL3vR5qi/96M8ABjKIwQzhc4YyjOGMYCSjGcNYxjGeCUxkEpOZwlSmMZ0ZzGQWs5nDXOYxnwUs5Au+5CsWsZglLGUZy1nBSlY99TXfsJo1/AmNFC5C
+  </data>
+ </layer>
+ <objectgroup name="static" width="50" height="30">
+  <object name="1" type="dat" x="800" y="480">
+   <polygon points="0,0 -16,-16 -784,-16 -800,0"/>
+  </object>
+ </objectgroup>
+ <objectgroup name="dynamic" width="50" height="30">
+  <object name="4" type="gotron" x="323" y="416">
+   <polygon points="0,0 13,22 28,-11"/>
+  </object>
+  <object name="4" type="gotron" x="128" y="414">
+   <polygon points="0,0 13,22 28,-11"/>
+  </object>
+  <object name="4" type="gotron" x="510" y="415">
+   <polygon points="0,0 13,22 28,-11"/>
+  </object>
+  <object name="4" type="gotron" x="406" y="419">
+   <polygon points="0,0 13,22 28,-11"/>
+  </object>
+  <object name="4" type="gotron" x="222" y="414">
+   <polygon points="0,0 13,22 28,-11"/>
+  </object>
+  <object name="5" type="da" x="20" y="413">
+   <polygon points="0,0 0,48 48,48 48,0"/>
+  </object>
+  <object name="5" type="da" x="4" y="361">
+   <polygon points="0,0 0,48 48,48 48,0"/>
+  </object>
+  <object name="5" type="da" x="-5" y="309">
+   <polygon points="0,0 0,48 48,48 48,0"/>
+  </object>
+  <object name="5" type="da" x="735" y="412">
+   <polygon points="0,0 0,48 48,48 48,0"/>
+  </object>
+  <object name="5" type="da" x="759" y="359">
+   <polygon points="0,0 0,48 48,48 48,0"/>
+  </object>
+  <object name="5" type="da" x="780" y="308">
+   <polygon points="0,0 0,48 48,48 48,0"/>
+  </object>
+  <object name="4" type="gotron" x="619" y="415">
+   <polygon points="0,0 13,22 28,-11"/>
+  </object>
+  <object name="4" type="gotron" x="465" y="345">
+   <polygon points="0,0 13,22 28,-11"/>
+  </object>
+  <object name="4" type="gotron" x="281" y="340">
+   <polygon points="0,0 13,22 28,-11"/>
+  </object>
+  <object name="4" type="gotron" x="674" y="338">
+   <polygon points="0,0 13,22 28,-11"/>
+  </object>
+  <object name="4" type="gotron" x="382" y="342">
+   <polygon points="0,0 13,22 28,-11"/>
+  </object>
+  <object name="4" type="gotron" x="187" y="340">
+   <polygon points="0,0 13,22 28,-11"/>
+  </object>
+  <object name="4" type="gotron" x="569" y="341">
+   <polygon points="0,0 13,22 28,-11"/>
+  </object>
+  <object name="4" type="gotron" x="93" y="333">
+   <polygon points="0,0 13,22 28,-11"/>
+  </object>
+  <object name="4" type="gotron" x="421" y="258">
+   <polygon points="0,0 13,22 28,-11"/>
+  </object>
+  <object name="4" type="gotron" x="237" y="253">
+   <polygon points="0,0 13,22 28,-11"/>
+  </object>
+  <object name="4" type="gotron" x="630" y="251">
+   <polygon points="0,0 13,22 28,-11"/>
+  </object>
+  <object name="4" type="gotron" x="338" y="255">
+   <polygon points="0,0 13,22 28,-11"/>
+  </object>
+  <object name="4" type="gotron" x="143" y="253">
+   <polygon points="0,0 13,22 28,-11"/>
+  </object>
+  <object name="4" type="gotron" x="525" y="254">
+   <polygon points="0,0 13,22 28,-11"/>
+  </object>
+  <object name="4" type="gotron" x="378" y="179">
+   <polygon points="0,0 13,22 28,-11"/>
+  </object>
+  <object name="4" type="gotron" x="194" y="174">
+   <polygon points="0,0 13,22 28,-11"/>
+  </object>
+  <object name="4" type="gotron" x="295" y="176">
+   <polygon points="0,0 13,22 28,-11"/>
+  </object>
+  <object name="4" type="gotron" x="587" y="172">
+   <polygon points="0,0 13,22 28,-11"/>
+  </object>
+  <object name="4" type="gotron" x="482" y="175">
+   <polygon points="0,0 13,22 28,-11"/>
+  </object>
+  <object name="4" type="gotron" x="539" y="104">
+   <polygon points="0,0 13,22 28,-11"/>
+  </object>
+  <object name="4" type="gotron" x="435" y="108">
+   <polygon points="0,0 13,22 28,-11"/>
+  </object>
+  <object name="4" type="gotron" x="352" y="105">
+   <polygon points="0,0 13,22 28,-11"/>
+  </object>
+  <object name="4" type="gotron" x="251" y="103">
+   <polygon points="0,0 13,22 28,-11"/>
+  </object>
+  <object name="5" type="da" x="9" y="255">
+   <polygon points="0,0 0,48 48,48 48,0"/>
+  </object>
+  <object name="5" type="da" x="760" y="254">
+   <polygon points="0,0 0,48 48,48 48,0"/>
+  </object>
+  <object name="5" type="da" x="-13" y="201">
+   <polygon points="0,0 0,48 48,48 48,0"/>
+  </object>
+  <object name="5" type="da" x="776" y="200">
+   <polygon points="0,0 0,48 48,48 48,0"/>
+  </object>
+  <object name="4" type="gotron" x="81" y="192">
+   <polygon points="0,0 13,22 28,-11"/>
+  </object>
+  <object name="4" type="gotron" x="145" y="104">
+   <polygon points="0,0 13,22 28,-11"/>
+  </object>
+  <object name="4" type="gotron" x="650" y="107">
+   <polygon points="0,0 13,22 28,-11"/>
+  </object>
+  <object name="4" type="gotron" x="699" y="195">
+   <polygon points="0,0 13,22 28,-11"/>
+  </object>
+  <object name="5" type="da" x="-26" y="143">
+   <polygon points="0,0 0,48 48,48 48,0"/>
+  </object>
+  <object name="5" type="da" x="-37" y="84">
+   <polygon points="0,0 0,48 48,48 48,0"/>
+  </object>
+  <object name="5" type="da" x="-57" y="28">
+   <polygon points="0,0 0,48 48,48 48,0"/>
+  </object>
+  <object name="5" type="da" x="792" y="140">
+   <polygon points="0,0 0,48 48,48 48,0"/>
+  </object>
+  <object name="5" type="da" x="799" y="80">
+   <polygon points="0,0 0,48 48,48 48,0"/>
+  </object>
+  <object name="5" type="da" x="803" y="17">
+   <polygon points="0,0 0,48 48,48 48,0"/>
+  </object>
+  <object name="4" type="gotron" x="71" y="88">
+   <polygon points="0,0 13,22 28,-11"/>
+  </object>
+  <object name="4" type="gotron" x="731" y="87">
+   <polygon points="0,0 13,22 28,-11"/>
+  </object>
+ </objectgroup>
+ <objectgroup name="player" width="50" height="30">
+  <object name="1" type="heo" x="141" y="-48">
+   <polygon points="0,0 1,34 25,111 73,111 101,34 100,-1"/>
+  </object>
+  <object name="5" type="heo" x="358" y="-51">
+   <polygon points="0,0 1,34 25,111 73,111 101,34 100,-1"/>
+  </object>
+  <object name="3" type="heo" x="544" y="-55">
+   <polygon points="0,0 1,34 25,111 73,111 101,34 100,-1"/>
+  </object>
+ </objectgroup>
+</map>

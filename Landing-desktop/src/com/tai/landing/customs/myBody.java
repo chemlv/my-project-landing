@@ -1,5 +1,7 @@
 package com.tai.landing.customs;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -10,6 +12,8 @@ import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.tai.landing.screens.BaseScreen;
+import com.tai.landing.screens.StartScreen;
 
 public class myBody extends Image {
 	public static final float WORLD_TO_BOX = 0.01f;
@@ -25,6 +29,7 @@ public class myBody extends Image {
 		super(aregion);
 		
 		this.isCircle = isCircle;
+		
 		if (isCircle) this.setOrigin(this.getWidth()/2, this.getHeight()/2);
 		else this.setOrigin(0, this.getHeight());
 		
@@ -85,7 +90,12 @@ public class myBody extends Image {
 	        public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
 	        	world.destroyBody(body);
 				myBody.this.remove();
-	            return true;
+				
+				Preferences prefs = Gdx.app.getPreferences("mypreferences");
+				boolean isSoundOn = prefs.getBoolean("SoundOn", true);
+				if (isSoundOn) BaseScreen.remove.play();
+	            
+				return true;
 	        }
 	        
 	        public void touchUp (InputEvent event, float x, float y, int pointer, int button) {

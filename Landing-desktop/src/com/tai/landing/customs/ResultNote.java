@@ -2,6 +2,9 @@ package com.tai.landing.customs;
 
 
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.moveTo;
+
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -10,11 +13,13 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.tai.landing.screens.BaseScreen;
 import com.tai.landing.screens.PhysicsGame;
+import com.tai.landing.screens.StartScreen;
 
 public class ResultNote extends Group {
 	
 	public final static int WIN = 0;
 	public final static int LOSE = 1;
+	public final static int COMP = 2;
 	private int status;
 	
 	final static int WIDTH = 533;
@@ -55,27 +60,30 @@ public class ResultNote extends Group {
     	this.addActor(img);
     	
     	
-    	String str;
-    	if (status == WIN) str = "Next Level";
-    	else str = "Start Again";
-		final TextButton btnew = new TextButton(str, a.getSkin());
-		btnew.setSize(200, 50);
-		btnew.setPosition(WIDTH/2 - btnew.getWidth()/2, 140);
-		btnew.addListener(new ClickListener() {
-			@Override
-			public void touchUp(InputEvent event, float x, float y,
-					int pointer, int button) {
-				if (x >= 0 && x < btnew.getWidth() && y >= 0 && y < btnew.getHeight()) 
-				{
-					if (status == WIN)  a.NextLevel() ;
-					else a.StartAgain();
-					ResultNote.this.remove();
+    	if (status != COMP)
+    	{
+	    	String str;
+	    	if (status == WIN) str = "Next Level";
+	    	else str = "Start Again";
+			final TextButton btnew = new TextButton(str, a.getSkin());
+			btnew.setSize(200, 50);
+			btnew.setPosition(WIDTH/2 - btnew.getWidth()/2, 140);
+			btnew.addListener(new ClickListener() {
+				@Override
+				public void touchUp(InputEvent event, float x, float y,
+						int pointer, int button) {
+					if (x >= 0 && x < btnew.getWidth() && y >= 0 && y < btnew.getHeight()) 
+					{
+						if (status == WIN)  a.NextLevel() ;
+						else a.StartAgain();
+						ResultNote.this.remove();
+					}
+					super.touchUp(event, x, y, pointer, button);
 				}
-				super.touchUp(event, x, y, pointer, button);
-			}
-
-		});
-		this.addActor(btnew);
+	
+			});
+			this.addActor(btnew);
+    	}
 
 		final TextButton btselect = new TextButton("Level Select", a.getSkin());
 		btselect.setSize(200, 50);
@@ -112,6 +120,16 @@ public class ResultNote extends Group {
     
     public void Moving()
     {
+    	Preferences prefs = Gdx.app.getPreferences("mypreferences");
+		boolean isSoundOn = prefs.getBoolean("SoundOn", true);
+    	if (isSoundOn)
+    	{
+    		BaseScreen.bg_music.stop();
+	    	if (status == WIN) BaseScreen.winner.play();
+	    	else if (status == LOSE) BaseScreen.lose.play();
+	    	else if (status == COMP) BaseScreen.winner.play();
+    	}
+    	
     	float x = BaseScreen.VIEWPORT_WIDTH/2 - WIDTH / 2;
     	float y = BaseScreen.VIEWPORT_HEIGHT/2 - HEIGHT / 2;
     	this.addAction(moveTo(x, y, 0.5f));    	
