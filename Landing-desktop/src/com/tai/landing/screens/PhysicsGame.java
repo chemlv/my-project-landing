@@ -306,7 +306,7 @@ public class PhysicsGame extends BaseScreen {
 				{
 					if (isLand(mb)) 
 					{
-						if (mb.getRotation() > -30 && mb.getRotation() < 30)
+						if (mb.getRotation() > -15 && mb.getRotation() < 15)
 						{
 							NumWin++;
 						}
