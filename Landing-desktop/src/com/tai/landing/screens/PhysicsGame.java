@@ -26,6 +26,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.sun.org.apache.bcel.internal.generic.POP2;
 import com.tai.landing.customs.ResultNote;
 import com.tai.landing.customs.myBody;
 import com.tai.landing.customs.myCircleShape;
@@ -356,6 +357,7 @@ public class PhysicsGame extends BaseScreen {
 	{
 		boolean kq = true;
 		boolean OnGround = false;
+		int PointContact = 0;
 		
 		List<Contact> cons = world.getContactList();
 		for (int i = 0; i < cons.size(); i++)
@@ -373,10 +375,10 @@ public class PhysicsGame extends BaseScreen {
 					
 				if (mb.equals(mb1))
 				{
+					PointContact ++;
 					if (!"dat".equals(t2))
 					{
 						kq = false;
-						break;
 					}
 					else
 					{
@@ -385,10 +387,10 @@ public class PhysicsGame extends BaseScreen {
 				}
 				else if (mb.equals(mb2))
 				{
+					PointContact++;
 					if (!"dat".equals(t1))
 					{
 						kq = false;
-						break;
 					}
 					else
 					{
@@ -397,6 +399,8 @@ public class PhysicsGame extends BaseScreen {
 				}
 			}
 		}		
+		
+		if (PointContact == 2 ) kq = true;
 		
 		return (kq && OnGround);
 	}

@@ -53,7 +53,7 @@ public class ResultNote extends Group {
     private void LoadActors()
     {
     	TextureRegion region;
-    	if (status == WIN) region = a.getAtlas().findRegion("victory");
+    	if (status == WIN || status == COMP) region = a.getAtlas().findRegion("victory");
     	else region = a.getAtlas().findRegion("failure");
     	Image img= new Image(region);
     	img.setPosition(WIDTH/2 - img.getWidth()/2, HEIGHT - img.getHeight() - 100);
